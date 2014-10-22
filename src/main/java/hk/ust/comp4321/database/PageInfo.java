@@ -63,7 +63,7 @@ public class PageInfo
    * This method simply returns the size of the page
    * @return the size of the page
    */
-  public int getSize()
+  public long getSize()
   {
     return this.size;
   }
