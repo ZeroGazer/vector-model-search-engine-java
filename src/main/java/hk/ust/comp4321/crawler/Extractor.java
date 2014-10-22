@@ -59,6 +59,7 @@ public class Extractor
 	private InvertedIndexTable invertedIndexTable;
 	private InvertedPageTable invertedPageTable;
 	private InvertedWordTable invertedWordTable;
+	private StopStem stopStem;
 	
 	// Constructors.
   // -------------------------------------------------------------------------
@@ -145,7 +146,8 @@ public class Extractor
 	  */
 	private long extractSize() throws IOException
 	{    
-	  HttpURLConnection content = (HttpURLConnection) new URL(url).openConnection();
+	  HttpURLConnection content = (HttpURLConnection)new URL (url)
+	                              .openConnection();
 	  content.disconnect();
 	  if (content.getContentLengthLong() != -1)
 	    return content.getContentLength();
@@ -178,11 +180,13 @@ public class Extractor
     sb.setURL (url);
     String temp = sb.getStrings();
 
-    // Non-word character as symbol to separate word by word
-    StringTokenizer st = new StringTokenizer(temp, "[\\W]+");
+    // Separate word by word
+    StringTokenizer st = new StringTokenizer(temp);
 		while (st.hasMoreTokens())
 		  {
 		    String word = st.nextToken();
+		    if(stopStem.isStopWord(word))
+          continue;
 		    int wordId;
 			  if(!(this.forwardWordTable.hasWord (word)))
 			    {
