@@ -82,25 +82,26 @@ public class Extractor
 		this.url = url;
 		this.wordIdGenerator = wordIdGenerator;
 		this.pageIdGenerator = pageIdGenerator;
-		
+
 		// Save page
 		this.pageId = this.pageIdGenerator.getId();
 		PageInfo pageInfo = new PageInfo(this.url, this.extractTitle(),
 		                                 this.extractSize(),
 		                                 this.extractLastUpdate());
+		
 		this.forwardPageTable.insertURL(this.url, pageId);
     this.invertedPageTable.insertPageId(pageId, pageInfo);
 
 		// Extract words
 		//countWordsFrequency();
-
+/*
 		// Commit all tables
 		this.forwardIndexTable.terminate();
     this.forwardPageTable.terminate();
     this.forwardWordTable.terminate();
     this.invertedIndexTable.terminate();
     this.invertedPageTable.terminate();
-    this.invertedWordTable.terminate();
+    this.invertedWordTable.terminate();*/
 	}
 
 	//Instance methods.
@@ -121,13 +122,13 @@ public class Extractor
 	  * This method extracts the last update date from the given url
 	  * 
 	  * @return the last modification date
-	 * @throws IOException 
+	  * @throws IOException 
 	  */
 	private Date extractLastUpdate() throws IOException
 	{
 		URL extractUrl = new URL(url);
 	  HttpURLConnection httpCon = (HttpURLConnection)extractUrl.openConnection();
-	  long date_temp = httpCon.getLastModified();
+	  long date_temp = httpCon.getHeaderFieldDate ("Date", 0);
 	  httpCon.disconnect();
 	  return new Date(date_temp);
 	}
@@ -136,7 +137,7 @@ public class Extractor
 	  * This method extracts the size from the given url
 	  * 
 	  * @return the size of the page
-	 * @throws IOException 
+	  * @throws IOException 
 	  */
 	private long extractSize() throws IOException
 	{    
@@ -150,7 +151,7 @@ public class Extractor
 	/**
 	  * This method counts the frequency of all the words from the given url.
 	  * Not yet finish
-	 * @throws IOException 
+	  * @throws IOException 
 	  */
 	public void countWordsFrequency() throws ParserException, IOException
 	{
@@ -189,7 +190,7 @@ public class Extractor
 	/**
 	  * This method extracts all the child links from the given url.
 	  * Not yet finish
-	 * @throws IOException 
+	  * @throws IOException 
 	  */
 
 	public void ExtractLinks() throws ParserException, IOException
