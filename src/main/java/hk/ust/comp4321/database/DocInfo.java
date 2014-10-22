@@ -19,7 +19,7 @@ public class DocInfo
   /**
    * This constrcutor encapsulates the word id and frequency in a document.
    * 
-   * @param id      the word id to be inserted
+   * @param id        the word id
    * @param frequency the associated frequency
    */
   public DocInfo(int id, int frequency)

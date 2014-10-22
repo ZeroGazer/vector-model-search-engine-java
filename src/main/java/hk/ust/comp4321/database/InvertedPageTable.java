@@ -27,22 +27,29 @@ public class InvertedPageTable
 
   private InvertedPageTable()
   {
-    // Create a RecordManager name "SearchEngineDatabase"
-    recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
-    // get the record id of the object named "InvertedPageTable"
-    long recid = recman.getNamedObject ("InvertedPageTable");
+    try
+      {
+        // Create a RecordManager name "SearchEngineDatabase"
+        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        // get the record id of the object named "InvertedPageTable"
+        long recid = recman.getNamedObject ("InvertedPageTable");
 
-    if (recid != 0)
-      {
-        // load the hash table named"InvertedPageTable"from the RecordManager
-        hashtable = HTree.load (recman, recid); 
+        if (recid != 0)
+          {
+            // load the hash table named"InvertedPageTable"from the RecordManager
+            hashtable = HTree.load (recman, recid); 
+          }
+        else
+          {
+            // create a hash table in the RecordManager
+            hashtable = HTree.createInstance (recman); 
+            // set the name of the hash table to "InvertedPageTable"
+            recman.setNamedObject ("InvertedPageTable", hashtable.getRecid()); 
+          }
       }
-    else
+    catch(java.io.IOException ex)
       {
-        // create a hash table in the RecordManager
-        hashtable = HTree.createInstance (recman); 
-        // set the name of the hash table to "InvertedPageTable"
-        recman.setNamedObject ("InvertedPageTable", hashtable.getRecid()); 
+        System.err.println(ex.toString());
       }
   }
 
@@ -69,10 +76,11 @@ public class InvertedPageTable
    * 
    * @param  id the page id of the page
    * @return    the page info of the given page id
+   * @throws IOException 
    */
-  public PageInfo getPageInfo (int id)
+  public PageInfo getPageInfo (int id) throws IOException
   {
-    return InvertedPageTable.hashtable.get (id);
+    return (PageInfo)InvertedPageTable.hashtable.get (id);
   }
 
   /**
@@ -81,13 +89,14 @@ public class InvertedPageTable
    * 
    * @param id       the page id to be inserted
    * @param pageInfo the associated page info to be inserted
+   * @throws IOException 
    */
-  public void insertPageId (int id, PageInfo pageInfo)
+  public void insertPageId (int id, PageInfo pageInfo) throws IOException
   {
-    PageInfo pageInfo = InvertedPageTable.hashtable.get (id);
+    PageInfo pageInfo_temp = (PageInfo)InvertedPageTable.hashtable.get (id);
     
     // If the page id has already existed, then remove it
-    if(pageInfo != null)
+    if(pageInfo_temp != null)
       InvertedPageTable.hashtable.remove (id);
     
     // Insert pageInfo

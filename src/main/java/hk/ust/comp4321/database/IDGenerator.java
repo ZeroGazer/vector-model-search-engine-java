@@ -28,7 +28,7 @@ public class IDGenerator
    * This method returns an unique id for a specific data
    * @return an unique id
    */
-  public int getID()
+  public int getId()
   {
     return counter++;
   }

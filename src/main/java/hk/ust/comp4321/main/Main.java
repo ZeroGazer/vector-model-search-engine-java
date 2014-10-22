@@ -9,18 +9,24 @@ import hk.ust.comp4321.database.PageInfo;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
 import jdbm.helper.FastIterator;
 
+/**
+ * 
+ * @author Alex Poon
+ *
+ */
 public class Main
 {
 
   // Class methods.
   // -------------------------------------------------------------------------
 
-  public static void main(String args[])
+  public static void main(String args[]) throws IOException
   {
     try
       {
@@ -33,8 +39,8 @@ public class Main
 
         // Output results
         InvertedPageTable invertedPageTable = InvertedPageTable.getTable();
-        ForwardIndexTable forwardIndexTable = forwardIndexTable.getTable();
-        InvertedWordTable InvertedWordTable = InvertedWordTable.getTable();
+        ForwardIndexTable forwardIndexTable = ForwardIndexTable.getTable();
+        InvertedWordTable invertedWordTable = InvertedWordTable.getTable();
         FastIterator iter = invertedPageTable.keys();
         Integer pageId;
         PageInfo pageInfo = null;
@@ -50,7 +56,7 @@ public class Main
             List<DocInfo> docInfoList = forwardIndexTable.getDocInfoList(pageId);
             for(int i = 0; i < docInfoList.size(); i++)
               { 
-                String word = InvertedWordTable.getWord 
+                String word = invertedWordTable.getWord 
                               (docInfoList.get (i).getId());
                 out.print( + docInfoList.get (i).getFrequency() + "; ");
               }

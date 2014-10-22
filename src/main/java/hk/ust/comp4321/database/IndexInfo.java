@@ -19,8 +19,8 @@ public class IndexInfo
   /**
    * This constrcutor encapsulates the index id and frequency of an index.
    * 
-   * @param id        
-   * @param frequency 
+   * @param id        the page id
+   * @param frequency the associated frequency
    */
   public IndexInfo(int id, int frequency)
   {
