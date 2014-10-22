@@ -15,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -72,7 +74,7 @@ public class Extractor
 	 * @throws IOException
 	 * @throws ParserException 
 	 */
-	Extractor(String url, IDGenerator wordIdGenerator,
+	Extractor(String parentUrl, String url, IDGenerator wordIdGenerator,
 	          IDGenerator pageIdGenerator) throws IOException, ParserException
 	{
 	  // Initialize all variables
@@ -85,26 +87,20 @@ public class Extractor
 		this.url = url;
 		this.wordIdGenerator = wordIdGenerator;
 		this.pageIdGenerator = pageIdGenerator;
+		this.stopStem = new StopStem();
 
 		// Save page
 		this.pageId = this.pageIdGenerator.getId();
 		PageInfo pageInfo = new PageInfo(this.url, this.extractTitle(),
 		                                 this.extractSize(),
-		                                 this.extractLastUpdate());
+		                                 this.extractLastUpdate(),
+		                                 parentUrl, this.extractLinks());
 		
 		this.forwardPageTable.insertURL (this.url, pageId);
     this.invertedPageTable.insertPageId (pageId, pageInfo);
 
 		// Extract words
 		this.countWordsFrequency();
-/*
-		// Commit all tables
-		this.forwardIndexTable.terminate();
-    this.forwardPageTable.terminate();
-    this.forwardWordTable.terminate();
-    this.invertedIndexTable.terminate();
-    this.invertedPageTable.terminate();
-    this.invertedWordTable.terminate();*/
 	}
 
 	//Instance methods.
@@ -147,7 +143,7 @@ public class Extractor
 	private long extractSize() throws IOException
 	{    
 	  HttpURLConnection content = (HttpURLConnection)new URL (url)
-	                              .openConnection();
+	                            .openConnection();
 	  content.disconnect();
 	  if (content.getContentLengthLong() != -1)
 	    return content.getContentLength();
@@ -180,13 +176,13 @@ public class Extractor
     sb.setURL (url);
     String temp = sb.getStrings();
 
-    // Separate word by word
+    // Non-word character as symbol to separate word by word
     StringTokenizer st = new StringTokenizer(temp);
 		while (st.hasMoreTokens())
 		  {
 		    String word = st.nextToken();
 		    if(stopStem.isStopWord(word))
-          continue;
+		      continue;
 		    int wordId;
 			  if(!(this.forwardWordTable.hasWord (word)))
 			    {
@@ -222,23 +218,15 @@ public class Extractor
 	  * @throws IOException 
 	  */
 
-	public void ExtractLinks() throws ParserException, IOException
+	public List<String> extractLinks() throws ParserException, IOException
 	{
-	    Vector<String> v_link = new Vector<String>();
+	    List<String> v_link = new ArrayList<String>();
 	    LinkBean lb = new LinkBean();
 	    lb.setURL(url);
 	    URL[] URL_array = lb.getLinks();
 	    for(int i=0; i<URL_array.length; i++){
-	    	// page_id exits
-	    	if(this.forwardPageTable.hasURL(URL_array[i].toString()))
-	    	  {
-	    		  // create pairs of parent link and child link
-	    	  }
-	    	else
-	    	  {
-	    		  // create page_id
-	    		  // create pairs of parent link and child link
-	    	  }
+	    	v_link.add (URL_array[i].toString());
 	    }
+	    return v_link;
 	}
 }

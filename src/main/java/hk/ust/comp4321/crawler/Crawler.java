@@ -47,16 +47,19 @@ public class Crawler
     	InUseURL++;
     	// no exception handling if we can't crawle 30 pages
     	this.url = v_link.get(InUseURL);
-   } while (v_link.size() < TotalNumOfPage);
+    } while (v_link.size() < TotalNumOfPage);
     // Extract 30 pages
-    try
-      {
-    		  Extractor extractor = new Extractor(this.url, this.wordIdGenerator,
-                                          this.pageIdGenerator);
-      }
-    catch (IOException | ParserException ex)
-      {
-        System.err.println(ex.toString());
-      }
+    for(int i = 0; i < v_link.size(); i++)
+      try
+        {
+    		  Extractor extractor = new Extractor(this.url, v_link.get(i),
+    		                                      this.wordIdGenerator,
+    		                                      this.pageIdGenerator);
+        }
+      catch (IOException | ParserException ex)
+        {
+          System.err.println(ex.toString());
+        }
+    
   }
 }

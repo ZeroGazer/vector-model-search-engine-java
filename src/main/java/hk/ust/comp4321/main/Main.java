@@ -3,6 +3,9 @@ package hk.ust.comp4321.main;
 import hk.ust.comp4321.crawler.Crawler;
 import hk.ust.comp4321.database.DocInfo;
 import hk.ust.comp4321.database.ForwardIndexTable;
+import hk.ust.comp4321.database.ForwardPageTable;
+import hk.ust.comp4321.database.ForwardWordTable;
+import hk.ust.comp4321.database.InvertedIndexTable;
 import hk.ust.comp4321.database.InvertedPageTable;
 import hk.ust.comp4321.database.InvertedWordTable;
 import hk.ust.comp4321.database.PageInfo;
@@ -44,32 +47,49 @@ public class Main
         FastIterator iter = invertedPageTable.keys();
         Integer pageId;
         PageInfo pageInfo = null;
-        while((pageId = (int)iter.next()) != null)
+        while((pageId = (Integer)iter.next()) != null)
           {
             // Display an individual page
             pageInfo = invertedPageTable.getPageInfo (pageId);
             out.println("Title: " + pageInfo.getTitle());
             out.println("URL: " + pageInfo.getUrl());
-            out.printf("%1$s %2$tB %2$td, %2$tY" ,
-                              "Last modification date: ", pageInfo.getTitle());
-            out.println("Page size: " + pageInfo.getUrl() + "byte");
-            List<DocInfo> docInfoList = forwardIndexTable.getDocInfoList(pageId);
+            out.println("Last modification date: " + pageInfo.getDate());
+            out.println("Page size: " + pageInfo.getSize() + "byte");
+            List<DocInfo> docInfoList = forwardIndexTable.getDocInfoList (pageId);
             for(int i = 0; i < docInfoList.size(); i++)
-              { 
+              {
                 String word = invertedWordTable.getWord 
                               (docInfoList.get (i).getId());
-                out.print( + docInfoList.get (i).getFrequency() + "; ");
+
+                out.print(word + " " + docInfoList.get (i).getFrequency()
+                          + "; ");
               }
-            out.println("");
-            //TODO: Child link
+            List<String> childLinks = pageInfo.getChildLinks();
+            for(int i = 0; i < childLinks.size(); i++)
+              out.println(childLinks.get(i));
+            out.println("----------------------------------------------------");         
           }
 
         // Close file
         out.close();
       }
-      catch (FileNotFoundException ex)
-        {
-          System.err.println(ex.toString());
-        }
+    catch (FileNotFoundException ex)
+      {
+        System.err.println(ex.toString());
+      }
+    try
+      {
+        // Commit all tables
+        ForwardIndexTable.getTable().terminate();
+        ForwardPageTable.getTable().terminate();
+        ForwardWordTable.getTable().terminate();
+        InvertedIndexTable.getTable().terminate();
+        InvertedPageTable.getTable().terminate();
+        InvertedWordTable.getTable().terminate();
+      }
+    catch (IOException ex)
+      {
+        System.err.println(ex.toString());
+      }
   }
 }
