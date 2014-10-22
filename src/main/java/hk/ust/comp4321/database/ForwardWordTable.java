@@ -42,7 +42,7 @@ public class ForwardWordTable
         // create a hash table in the RecordManager
         hashtable = HTree.createInstance (recman); 
         // set the name of the hash table to "ForwardWordTable"
-        recman.setNamedObject ( "ForwardWordTable", hashtable.getRecid() ); 
+        recman.setNamedObject ("ForwardWordTable", hashtable.getRecid()); 
       }
   }
 

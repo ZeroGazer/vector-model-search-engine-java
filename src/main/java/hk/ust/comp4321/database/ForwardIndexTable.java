@@ -44,7 +44,7 @@ public class ForwardIndexTable
         // create a hash table in the RecordManager
         hashtable = HTree.createInstance (recman); 
         // set the name of the hash table to "ForwardIndexTable"
-        recman.setNamedObject ( "ForwardIndexTable", hashtable.getRecid() ); 
+        recman.setNamedObject ("ForwardIndexTable", hashtable.getRecid()); 
       }
   }
 

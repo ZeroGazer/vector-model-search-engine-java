@@ -42,7 +42,7 @@ public class ForwardPageTable
         // create a hash table in the RecordManager
         hashtable = HTree.createInstance (recman); 
         // set the name of the hash table to "ForwardPageTable"
-        recman.setNamedObject ( "ForwardPageTable", hashtable.getRecid() ); 
+        recman.setNamedObject ("ForwardPageTable", hashtable.getRecid()); 
       }
   }
 

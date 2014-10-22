@@ -42,7 +42,7 @@ public class InvertedWordTable
         // create a hash table in the RecordManager
         hashtable = HTree.createInstance (recman); 
         // set the name of the hash table to "InvertedWordTable"
-        recman.setNamedObject ( "InvertedWordTable", hashtable.getRecid() ); 
+        recman.setNamedObject ("InvertedWordTable", hashtable.getRecid()); 
       }
   }
 
