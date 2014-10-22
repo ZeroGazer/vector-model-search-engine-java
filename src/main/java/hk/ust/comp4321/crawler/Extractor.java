@@ -128,7 +128,7 @@ public class Extractor
 	  */
 	private Date extractLastUpdate() throws IOException
 	{
-		URL extractUrl = new URL(url);
+	  URL extractUrl = new URL(url);
 	  HttpURLConnection httpCon = (HttpURLConnection)extractUrl.openConnection();
 	  long date_temp = httpCon.getLastModified();
 	  if(date_temp == 0)
@@ -145,11 +145,21 @@ public class Extractor
 	  */
 	private long extractSize() throws IOException
 	{    
-	   URL extractUrl = new URL(url);
-	   HttpURLConnection httpCon = (HttpURLConnection)extractUrl.openConnection();
-	   long size = httpCon.getContentLengthLong();
-	   httpCon.disconnect();
-	   return size;
+	  HttpURLConnection content = (HttpURLConnection) new URL(url).openConnection();
+	  content.disconnect();
+	  if (content.getContentLengthLong() != -1)
+	    return content.getContentLength();
+	  else
+	  {
+	    StringBean sb = new StringBean();
+	    Vector<String> v_str = new Vector<String>();
+	    boolean links = false;
+	    sb.setLinks (links);
+	    sb.setURL (url);
+	    String temp = sb.getStrings();
+	    StringTokenizer st = new StringTokenizer(temp, " ");
+	    return st.countTokens();
+	  }
 	}
 
 	/**
