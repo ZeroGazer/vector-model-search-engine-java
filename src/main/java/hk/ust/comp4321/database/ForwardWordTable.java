@@ -55,7 +55,7 @@ public class ForwardWordTable
    * 
    * @return the unique forward word table
    */
-  public static ForwardWordTable getWordTable()
+  public static ForwardWordTable getTable()
   {
     return ForwardWordTable.forwardWordTable;
   }

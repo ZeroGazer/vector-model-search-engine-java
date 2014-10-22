@@ -55,7 +55,7 @@ public class ForwardPageTable
    * 
    * @return the unique forward page table
    */
-  public static ForwardPageTable getPageTable()
+  public static ForwardPageTable getTable()
   {
     return ForwardPageTable.forwardPageTable;
   }

@@ -57,7 +57,7 @@ public class ForwardIndexTable
    * 
    * @return the unique forward index table
    */
-  public static ForwardIndexTable getIndexTable()
+  public static ForwardIndexTable getTable()
   {
     return ForwardIndexTable.forwardIndexTable;
   }

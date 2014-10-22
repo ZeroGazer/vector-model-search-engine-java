@@ -55,7 +55,7 @@ public class InvertedPageTable
    * 
    * @return the unique inverted page table
    */
-  public static InvertedPageTable getWordTable()
+  public static InvertedPageTable getTable()
   {
     return InvertedPageTable.invertedPageTable;
   }

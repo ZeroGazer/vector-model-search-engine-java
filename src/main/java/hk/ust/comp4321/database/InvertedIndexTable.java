@@ -66,7 +66,7 @@ public class InvertedIndexTable
    * 
    * @return the unique inverted index table
    */
-  public static InvertedIndexTable getInvertedIndexTable()
+  public static InvertedIndexTable getTable()
   {
     return InvertedIndexTable.invertedIndexTable;
   }

@@ -55,7 +55,7 @@ public class InvertedWordTable
    * 
    * @return the unique inverted word table
    */
-  public static InvertedWordTable getInvertedWordTable()
+  public static InvertedWordTable getTable()
   {
     return InvertedWordTable.invertedWordTable;
   }
