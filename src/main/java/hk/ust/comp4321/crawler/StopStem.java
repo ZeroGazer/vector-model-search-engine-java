@@ -1,6 +1,7 @@
 package hk.ust.comp4321.crawler;
 
 import java.io.*;
+import java.net.URL;
 
 /**
  * 
@@ -23,8 +24,7 @@ public class StopStem {
   public StopStem()  //Load the stop words from txt file to hashset;
   {
     super();
-    String filePath = "stopwords.txt";
-    File file = new File(filePath);
+    File file = new File("stopwords.txt");
     BufferedReader reader = null;
     porter = new Porter();
     stopWords = new java.util.HashSet<String>();
