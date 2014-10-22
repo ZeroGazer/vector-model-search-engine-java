@@ -19,8 +19,10 @@ public class Crawler
   private InvertedPageTable invertedPageTable;
   private IDGenerator wordIdGenerator = new IDGenerator();
   private IDGenerator pageIdGenerator = new IDGenerator();
-  private const int TotalNumOfPage = 30;
-  private int counter = 1;
+  private final int TotalNumOfPage = 30;
+  private int InUseURL = 1;
+  private Vector<String> v_link = new Vector<String>();
+  private LinkBean lb = new LinkBean();
   
   // Constructors.
   // -------------------------------------------------------------------------
@@ -28,17 +30,23 @@ public class Crawler
   public Crawler(String url)
   {
     this.url = url;
-    
+    //library http://downloads.sourceforge.net/htmlparser/htmlparser1_6_20060610.zip?modtime=1149940066&big_mirror=0 is needed
+    v_link.addElement(url);
+    do 
+    {
+    	lb.setURL(url);
+    	URL[] URL_array = lb.getLinks();
+    	for(int i=0; i<URL_array.length && v_link.size()<TotalNumOfPage; i++)
+    		v_link.addElement(URL_array[i].toString());
+    	InUseUrl++;
+    	// no exception handling if we can't crawle 30 pages
+    	url = v_link.get(UsingUrl);
+   } while (v_link.size() < TotalNumOfPage);
     // Extract 30 pages
     try
       {
-    	  while(counter <= TotalNumOfPage)
-    	  {
     		  Extractor extractor = new Extractor(this.url, this.wordIdGenerator,
                                           this.pageIdGenerator);
-    		  counter++;
-    		  this.url = invertedPageTable.getPageInfo(i).getUrl();
-    	  }
       }
     catch (IOException ex)
       {
