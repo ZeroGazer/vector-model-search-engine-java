@@ -95,6 +95,16 @@ public class InvertedPageTable
   }
 
   /**
+   * This method returns an enumeration of the keys
+   * @return an enumeration of the keys
+   * @throws IOException
+   */
+  public FastIterator keys() throws IOException
+  {
+    return InvertedPageTable.hashtable.keys();
+  }
+
+  /**
    * This method commits all changes since beginning of transaction and
    * terminates.
    * 

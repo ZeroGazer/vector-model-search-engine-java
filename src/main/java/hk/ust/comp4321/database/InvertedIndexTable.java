@@ -1,5 +1,6 @@
 package hk.ust.comp4321.database;
 
+import jdbm.helper.FastIterator;
 import jdbm.htree.HTree;
 import jdbm.RecordManager;
 import jdbm.RecordManagerFactory;
@@ -135,6 +136,16 @@ public class InvertedIndexTable
     // Add the list to the database
     InvertedIndexTable.hashtable.remove (id);
     InvertedIndexTable.hashtable.put (id, indexInfoList);
+  }
+
+  /**
+   * This method returns an enumeration of the keys
+   * @return an enumeration of the keys
+   * @throws IOException
+   */
+  public FastIterator keys() throws IOException
+  {
+    return InvertedIndexTable.hashtable.keys();
   }
 
   /**
