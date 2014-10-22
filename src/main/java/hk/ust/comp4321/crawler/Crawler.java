@@ -16,8 +16,11 @@ public class Crawler
   // -------------------------------------------------------------------------
   
   private String url;
+  private InvertedPageTable invertedPageTable;
   private IDGenerator wordIdGenerator = new IDGenerator();
   private IDGenerator pageIdGenerator = new IDGenerator();
+  private const int TotalNumOfPage = 30;
+  private int counter = 1;
   
   // Constructors.
   // -------------------------------------------------------------------------
@@ -29,8 +32,13 @@ public class Crawler
     // Extract 30 pages
     try
       {
-        Extractor extractor = new Extractor(this.url, this.wordIdGenerator,
+    	  while(counter <= TotalNumOfPage)
+    	  {
+    		  Extractor extractor = new Extractor(this.url, this.wordIdGenerator,
                                           this.pageIdGenerator);
+    		  counter++;
+    		  this.url = invertedPageTable.getPageInfo(i).getUrl();
+    	  }
       }
     catch (IOException ex)
       {
