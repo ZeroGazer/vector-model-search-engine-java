@@ -2,7 +2,7 @@ package hk.ust.comp4321.database;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 /**
  * 
@@ -14,10 +14,16 @@ public class PageInfo implements Serializable
   // Constants and fields.
   // -------------------------------------------------------------------------
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 4619106846397540995L;
   private String url;
   private String title;
   private long size;
   private Date lastModificationDate;
+  private String parentLink;
+  private List<String> childLinks;
 
   // Constructors.
   // -------------------------------------------------------------------------
@@ -34,13 +40,15 @@ public class PageInfo implements Serializable
    * @param childLinks           the child links of the page
    */
   public PageInfo (String url, String title, long size,
-                   Date lastModificationDate, String parent,
-                   Vector<String> childLinks)
+                   Date lastModificationDate, String parentLink,
+                   List<String> childLinks)
   {
     this.url = url;
     this.title = title;
     this.size = size;
     this.lastModificationDate = lastModificationDate;
+    this.parentLink = parentLink;
+    this.childLinks = childLinks;
   }
 
   //Instance methods.
@@ -83,6 +91,24 @@ public class PageInfo implements Serializable
   }
 
   /**
+   * This method simply returns the parent link of the page
+   * @return the parent link of the page
+   */
+  public String getParentLink()
+  {
+    return this.parentLink;
+  }
+
+  /**
+   * This method simply returns a list of the child links of the page
+   * @return the list of the child links of the page
+   */
+  public List<String> getChildLinks()
+  {
+    return this.childLinks;
+  }
+
+  /**
    * This method modifies the absolute url of the page
    * @param url the new absolute url of the page
    */
@@ -116,6 +142,24 @@ public class PageInfo implements Serializable
   public void setDate(Date lastModificationDate)
   {
     this.lastModificationDate = lastModificationDate;
+  }
+
+  /**
+   * This method modifies the parent link of the page
+   * @param parentLink the parent link of the page
+   */
+  public void setParentLink(String parentLink)
+  {
+    this.parentLink = parentLink;
+  }
+
+  /**
+   * This method modifies the list of the child links of the page
+   * @param childLinks the list of the child links of the page
+   */
+  public void setChildLinks(List<String> childLinks)
+  {
+    this.childLinks = childLinks;
   }
 
   /**

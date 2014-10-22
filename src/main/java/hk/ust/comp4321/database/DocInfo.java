@@ -12,6 +12,10 @@ public class DocInfo implements Serializable
   //Constants and fields.
   // -------------------------------------------------------------------------
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5469863410000543073L;
   private int id;
   private int frequency;
 

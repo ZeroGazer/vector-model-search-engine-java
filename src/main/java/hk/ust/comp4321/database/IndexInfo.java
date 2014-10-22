@@ -12,6 +12,10 @@ public class IndexInfo implements Serializable
   //Constants and fields.
   // -------------------------------------------------------------------------
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -967762972744867492L;
   private int id;
   private int frequency;
 
