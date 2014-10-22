@@ -38,9 +38,9 @@ public class Crawler
     	URL[] URL_array = lb.getLinks();
     	for(int i=0; i<URL_array.length && v_link.size()<TotalNumOfPage; i++)
     		v_link.addElement(URL_array[i].toString());
-    	InUseUrl++;
+    	InUseURL++;
     	// no exception handling if we can't crawle 30 pages
-    	url = v_link.get(UsingUrl);
+    	url = v_link.get(InUseURL);
    } while (v_link.size() < TotalNumOfPage);
     // Extract 30 pages
     try
