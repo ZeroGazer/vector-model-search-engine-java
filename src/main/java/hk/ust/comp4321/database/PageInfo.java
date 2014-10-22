@@ -2,6 +2,7 @@ package hk.ust.comp4321.database;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Vector;
 
 /**
  * 
@@ -29,9 +30,12 @@ public class PageInfo implements Serializable
    * @param title                the title of the page
    * @param size                 the size of the page in byte
    * @param lastModificationDate the last modification date of the page
+   * @param parentLink           the parent link of the page
+   * @param childLinks           the child links of the page
    */
   public PageInfo (String url, String title, long size,
-                   Date lastModificationDate)
+                   Date lastModificationDate, String parent,
+                   Vector<String> childLinks)
   {
     this.url = url;
     this.title = title;
