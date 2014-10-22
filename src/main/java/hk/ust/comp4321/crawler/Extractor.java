@@ -1,5 +1,6 @@
 package hk.ust.comp4321.crawler;
 
+import hk.ust.comp4321.database.DocInfo;
 import hk.ust.comp4321.database.ForwardIndexTable;
 import hk.ust.comp4321.database.ForwardPageTable;
 import hk.ust.comp4321.database.ForwardWordTable;
@@ -68,9 +69,10 @@ public class Extractor
 	 * @param wordIdGenerator
 	 * @param pageIdGenerator
 	 * @throws IOException
+	 * @throws ParserException 
 	 */
 	Extractor(String url, IDGenerator wordIdGenerator,
-	          IDGenerator pageIdGenerator) throws IOException
+	          IDGenerator pageIdGenerator) throws IOException, ParserException
 	{
 	  // Initialize all variables
 	  this.forwardIndexTable = ForwardIndexTable.getTable();
@@ -89,11 +91,11 @@ public class Extractor
 		                                 this.extractSize(),
 		                                 this.extractLastUpdate());
 		
-		this.forwardPageTable.insertURL(this.url, pageId);
-    this.invertedPageTable.insertPageId(pageId, pageInfo);
+		this.forwardPageTable.insertURL (this.url, pageId);
+    this.invertedPageTable.insertPageId (pageId, pageInfo);
 
 		// Extract words
-		//countWordsFrequency();
+		this.countWordsFrequency();
 /*
 		// Commit all tables
 		this.forwardIndexTable.terminate();
@@ -128,7 +130,9 @@ public class Extractor
 	{
 		URL extractUrl = new URL(url);
 	  HttpURLConnection httpCon = (HttpURLConnection)extractUrl.openConnection();
-	  long date_temp = httpCon.getHeaderFieldDate ("Date", 0);
+	  long date_temp = httpCon.getLastModified();
+	  if(date_temp == 0)
+	    date_temp = httpCon.getHeaderFieldDate ("Date", 0);
 	  httpCon.disconnect();
 	  return new Date(date_temp);
 	}
@@ -164,25 +168,36 @@ public class Extractor
     sb.setURL (url);
     String temp = sb.getStrings();
 
-    // Space as symbol to separate word by word
-    StringTokenizer st = new StringTokenizer(temp, " ");
+    // Non-word character as symbol to separate word by word
+    StringTokenizer st = new StringTokenizer(temp, "[\\W]+");
 		while (st.hasMoreTokens())
 		  {
 		    String word = st.nextToken();
-			  if(!(this.forwardWordTable.hasWord(word)))
+		    int wordId;
+			  if(!(this.forwardWordTable.hasWord (word)))
 			    {
 			      // create new id for the word on ForwardWordTable,
 			      // InvertedWordTable and new posting list
-			      int wordId = this.wordIdGenerator.getId();
-			      this.forwardWordTable.insertWord(word, wordId);
-			      this.invertedWordTable.insertWordId(wordId, word);
+			      wordId = this.wordIdGenerator.getId();
+			      this.forwardWordTable.insertWord (word, wordId);
+			      this.invertedWordTable.insertWordId (wordId, word);
 			    }
 			  else
 			    {
 				    // check whether it is the first time of the word appear, 
 				    // if yes, create new posting list
 				    // else add frequency by 1 of that word of that page
-
+			      wordId = this.forwardWordTable.getWordID (word);
+			    }
+			  DocInfo docInfo = forwardIndexTable.getDocInfo (this.pageId, wordId);
+			  if(docInfo == null)
+			    forwardIndexTable.insertDocInfo(pageId, new DocInfo(wordId, 1));
+			  else
+			    {
+			      forwardIndexTable.insertDocInfo(pageId, 
+			                                      new DocInfo(wordId,
+			                                                  docInfo.getFrequency()
+			                                                  + 1));
 			    }
 		  }
 	}
