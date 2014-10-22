@@ -75,11 +75,11 @@ public class InvertedIndexTable
   // -------------------------------------------------------------------------
 
   /**
-   * This method returns the page info with the given word id and page id which
-   * has been inserted in the database.
+   * This method returns the index info with the given word id and page id. If
+   * the index info does not exist, it returns null.
    * 
-   * @param  indexId      the index id of the index
-   * @return              the list of index info of the given index id
+   * @param  wordId       the word id containing the index info
+   * @return pageId       the page id of the index info
    * @throws IOException
    */
   @SuppressWarnings("unchecked")
@@ -94,29 +94,19 @@ public class InvertedIndexTable
     else
       {
         // Find the index info
-        IndexInfo indexInfo = null;
         for(int i = 0; i < indexInfoList.size(); i++)
-          {
-            if(indexInfoList.get(i).getId() = pageId)
-              {
-                indexInfo = indexInfoList.get (i);
-                break;
-              }
-          }
-        // Check if the index info does not exist
-        if(indexInfo == null)
-          return null;
-        else
-          return indexInfo;
+          if(indexInfoList.get (i).getId() = pageId)
+            return indexInfoList.get (i);
+        return null;
       }
   }
 
   /**
-   * This method inserts a page id which is not in the database and its
-   * associated page info.
+   * This method inserts a index info, if the index info exists, it will be
+   * replaced.
    * 
-   * @param  id            the page id to be inserted
-   * @param  pageInfo      the associated page info to be inserted
+   * @param  id            the word id to be inserted
+   * @param  pageInfo      the associated index info to be inserted
    * @throws IOException
    */
   public void insertIndexInfo (int id, IndexInfo indexInfo) throws IOException
@@ -128,19 +118,18 @@ public class InvertedIndexTable
     // Check if the list does not exist
     if(indexInfoList == null)
       indexInfoList = new ArrayList<IndexInfo>();
-    indexInfoList.add (indexInfo);
 
     // Check if the index info has already existed, if yes then remove it 
     for(int i = 0; i < indexInfoList.size(); i++)
       {
-        if(indexInfoList.get(i).getId() = indexInfo.getId())
+        if(indexInfoList.get (i).getId() = indexInfo.getId())
           {
-            indexInfoList.remove (indexInfoList.get(i));
+            indexInfoList.remove (indexInfoList.get (i));
             break;
           }
       }
 
-    // Add indexInfo to the list
+    // Add index info to the list
     indexInfoList.add (indexInfo);
 
     // Add the list to the database
