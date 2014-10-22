@@ -37,4 +37,14 @@ public class IndexInfo
   {
     return this.id;
   }
+
+  /**
+   * This method returns the frequency of the index instance.
+   * 
+   * @return the frequency of the index instance 
+   */
+  public int getFrequency()
+  {
+    return this.frequency;
+  }
 }
