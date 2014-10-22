@@ -1,6 +1,18 @@
-package hk.ust.comp4321.main
+package hk.ust.comp4321.main;
 
+import hk.ust.comp4321.crawler.Crawler;
+import hk.ust.comp4321.database.DocInfo;
+import hk.ust.comp4321.database.ForwardIndexTable;
+import hk.ust.comp4321.database.InvertedPageTable;
+import hk.ust.comp4321.database.InvertedWordTable;
+import hk.ust.comp4321.database.PageInfo;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.List;
+
+import jdbm.helper.FastIterator;
 
 public class Main
 {
@@ -8,7 +20,7 @@ public class Main
   // Class methods.
   // -------------------------------------------------------------------------
 
-  public static void main(String ars[])
+  public static void main(String args[])
   {
     try
       {
@@ -24,7 +36,7 @@ public class Main
         ForwardIndexTable forwardIndexTable = forwardIndexTable.getTable();
         InvertedWordTable InvertedWordTable = InvertedWordTable.getTable();
         FastIterator iter = invertedPageTable.keys();
-        int pageId;
+        Integer pageId;
         PageInfo pageInfo = null;
         while((pageId = (int)iter.next()) != null)
           {

@@ -29,23 +29,30 @@ public class ForwardIndexTable
 
   private ForwardIndexTable()
   {
-    // Create a RecordManager name "SearchEngineDatabase"
-    recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
-    // get the record id of the object named "ForwardIndexTable"
-    long recid = recman.getNamedObject ("ForwardIndexTable");
+    try
+      {
+        // Create a RecordManager name "SearchEngineDatabase"
+        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        // get the record id of the object named "ForwardIndexTable"
+        long recid = recman.getNamedObject ("ForwardIndexTable");
 
-    if (recid != 0)
-      {
-        // load the hash table named"ForwardIndexTable"from the RecordManager
-        hashtable = HTree.load (recman, recid); 
+        if (recid != 0)
+          {
+            // load the hash table named"ForwardIndexTable"from the RecordManager
+            hashtable = HTree.load (recman, recid); 
+          }
+        else
+          {
+            // create a hash table in the RecordManager
+            hashtable = HTree.createInstance (recman); 
+            // set the name of the hash table to "ForwardIndexTable"
+            recman.setNamedObject ("ForwardIndexTable", hashtable.getRecid()); 
+          }
       }
-    else
-      {
-        // create a hash table in the RecordManager
-        hashtable = HTree.createInstance (recman); 
-        // set the name of the hash table to "ForwardIndexTable"
-        recman.setNamedObject ("ForwardIndexTable", hashtable.getRecid()); 
-      }
+      catch(java.io.IOException ex)
+        {
+          System.err.println(ex.toString());
+        }
   }
 
   // Class methods.
@@ -72,6 +79,7 @@ public class ForwardIndexTable
    * @return list of doc info with the given page id
    * @throws IOException
    */
+  @SuppressWarnings("unchecked")
   public List<DocInfo> getDocInfoList (int pageId) throws IOException
   {
       return (List<DocInfo>)ForwardIndexTable.hashtable.get (pageId);
@@ -99,8 +107,8 @@ public class ForwardIndexTable
       {
         // Find the doc info
         for(int i = 0; i < docInfoList.size(); i++)
-          if(docInfoList.get (i).getId() = wordId)
-            return docInfo = docInfoList.get (i);
+          if(docInfoList.get (i).getId() == wordId)
+            return docInfoList.get (i);
         return null;
       }
   }
@@ -126,9 +134,9 @@ public class ForwardIndexTable
     // Check if the doc info has already existed, if yes then remove it 
     for(int i = 0; i < docInfoList.size(); i++)
       {
-        if(docInfoList.get (i).getId() = docInfo.getId())
+        if(docInfoList.get (i).getId() == docInfo.getId())
           {
-            indexInfoList.remove (docInfoList.get (i));
+            docInfoList.remove (docInfoList.get (i));
             break;
           }
       }

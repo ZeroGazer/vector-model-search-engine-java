@@ -27,22 +27,29 @@ public class InvertedWordTable
 
   private InvertedWordTable()
   {
-    // Create a RecordManager name "SearchEngineDatabase"
-    recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
-    // get the record id of the object named "InvertedWordTable"
-    long recid = recman.getNamedObject ("InvertedWordTable");
+    try
+      {
+        // Create a RecordManager name "SearchEngineDatabase"
+        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        // get the record id of the object named "InvertedWordTable"
+        long recid = recman.getNamedObject ("InvertedWordTable");
 
-    if (recid != 0)
-      {
-        // load the hash table named"InvertedWordTable"from the RecordManager
-        hashtable = HTree.load (recman, recid); 
+        if (recid != 0)
+          {
+            // load the hash table named"InvertedWordTable"from the RecordManager
+            hashtable = HTree.load (recman, recid); 
+          }
+        else
+          {
+            // create a hash table in the RecordManager
+            hashtable = HTree.createInstance (recman); 
+            // set the name of the hash table to "InvertedWordTable"
+            recman.setNamedObject ("InvertedWordTable", hashtable.getRecid()); 
+          }
       }
-    else
+    catch(java.io.IOException ex)
       {
-        // create a hash table in the RecordManager
-        hashtable = HTree.createInstance (recman); 
-        // set the name of the hash table to "InvertedWordTable"
-        recman.setNamedObject ("InvertedWordTable", hashtable.getRecid()); 
+        System.err.println(ex.toString());
       }
   }
 
@@ -69,10 +76,11 @@ public class InvertedWordTable
    * 
    * @param  id the word id of the word
    * @return    the word of the given word id
+   * @throws IOException 
    */
-  public Integer getWord (int id)
+  public String getWord (int id) throws IOException
   {
-    return InvertedWordTable.hashtable.get (id);
+    return (String)InvertedWordTable.hashtable.get (id);
   }
 
   /**
@@ -81,8 +89,9 @@ public class InvertedWordTable
    * 
    * @param id   the word id to be inserted
    * @param word the associated word to be inserted
+   * @throws IOException 
    */
-  public void insertWordId (int id, String word)
+  public void insertWordId (int id, String word) throws IOException
   {
     InvertedWordTable.hashtable.put (id, word);
   }

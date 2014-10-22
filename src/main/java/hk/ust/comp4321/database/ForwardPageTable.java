@@ -27,22 +27,29 @@ public class ForwardPageTable
 
   private ForwardPageTable()
   {
-    // Create a RecordManager name "SearchEngineDatabase"
-    recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
-    // get the record id of the object named "ForwardPageTable"
-    long recid = recman.getNamedObject ("ForwardPageTable");
+    try
+      {
+        // Create a RecordManager name "SearchEngineDatabase"
+        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        // get the record id of the object named "ForwardPageTable"
+        long recid = recman.getNamedObject ("ForwardPageTable");
 
-    if (recid != 0)
-      {
-        // load the hash table named"ForwardPageTable"from the RecordManager
-        hashtable = HTree.load (recman, recid); 
+        if (recid != 0)
+          {
+            // load the hash table named"ForwardPageTable"from the RecordManager
+            hashtable = HTree.load (recman, recid); 
+          }
+        else
+          {
+            // create a hash table in the RecordManager
+            hashtable = HTree.createInstance (recman); 
+              // set the name of the hash table to "ForwardPageTable"
+              recman.setNamedObject ("ForwardPageTable", hashtable.getRecid()); 
+          }
       }
-    else
+    catch(java.io.IOException ex)
       {
-        // create a hash table in the RecordManager
-        hashtable = HTree.createInstance (recman); 
-        // set the name of the hash table to "ForwardPageTable"
-        recman.setNamedObject ("ForwardPageTable", hashtable.getRecid()); 
+        System.err.println(ex.toString());
       }
   }
 
@@ -69,10 +76,11 @@ public class ForwardPageTable
    * 
    * @param  url the absolute url of the page
    * @return     the page id of the given url
+   * @throws IOException
    */
-  public Integer getPageID (String url)
+  public Integer getPageID (String url) throws IOException
   {
-    return ForwardPageTable.hashtable.get (url);
+    return (Integer)ForwardPageTable.hashtable.get (url);
   }
 
   /**
@@ -81,8 +89,9 @@ public class ForwardPageTable
    * 
    * @param url the url to be inserted
    * @param id  the associated id to be inserted
+   * @throws IOException
    */
-  public void insertURL (String url, int id)
+  public void insertURL (String url, int id) throws IOException
   {
     ForwardPageTable.hashtable.put (url, id);
   }
@@ -93,8 +102,9 @@ public class ForwardPageTable
    * 
    * @param  url check the url whether it exists
    * @return     true if the url exists
+   * @throws IOException
    */
-  public boolean hasURL (String url)
+  public boolean hasURL (String url) throws IOException
   {
     return (ForwardPageTable.hashtable.get (url) != null);
   }

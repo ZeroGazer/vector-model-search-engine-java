@@ -82,6 +82,7 @@ public class InvertedIndexTable
    * @return the list of index info with the given word id
    * @throws IOException
    */
+  @SuppressWarnings("unchecked")
   public List<IndexInfo> getIndexInfoList (int wordId) throws IOException
   {
       return (List<IndexInfo>)InvertedIndexTable.hashtable.get (wordId);
@@ -108,7 +109,7 @@ public class InvertedIndexTable
       {
         // Find the index info
         for(int i = 0; i < indexInfoList.size(); i++)
-          if(indexInfoList.get (i).getId() = pageId)
+          if(indexInfoList.get (i).getId() == pageId)
             return indexInfoList.get (i);
         return null;
       }
@@ -135,7 +136,7 @@ public class InvertedIndexTable
     // Check if the index info has already existed, if yes then remove it 
     for(int i = 0; i < indexInfoList.size(); i++)
       {
-        if(indexInfoList.get (i).getId() = indexInfo.getId())
+        if(indexInfoList.get (i).getId() == indexInfo.getId())
           {
             indexInfoList.remove (indexInfoList.get (i));
             break;

@@ -27,22 +27,29 @@ public class ForwardWordTable
 
   private ForwardWordTable()
   {
-    // Create a RecordManager name "SearchEngineDatabase"
-    recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
-    // get the record id of the object named "ForwardWordTable"
-    long recid = recman.getNamedObject ("ForwardWordTable");
+    try
+      {
+        // Create a RecordManager name "SearchEngineDatabase"
+        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        // get the record id of the object named "ForwardWordTable"
+        long recid = recman.getNamedObject ("ForwardWordTable");
 
-    if (recid != 0)
-      {
-        // load the hash table named"ForwardWordTable"from the RecordManager
-        hashtable = HTree.load (recman, recid); 
+        if (recid != 0)
+          {
+            // load the hash table named"ForwardWordTable"from the RecordManager
+            hashtable = HTree.load (recman, recid); 
+          }
+        else
+          {
+            // create a hash table in the RecordManager
+            hashtable = HTree.createInstance (recman); 
+            // set the name of the hash table to "ForwardWordTable"
+            recman.setNamedObject ("ForwardWordTable", hashtable.getRecid()); 
+          }
       }
-    else
+    catch(java.io.IOException ex)
       {
-        // create a hash table in the RecordManager
-        hashtable = HTree.createInstance (recman); 
-        // set the name of the hash table to "ForwardWordTable"
-        recman.setNamedObject ("ForwardWordTable", hashtable.getRecid()); 
+        System.err.println(ex.toString());
       }
   }
 
@@ -69,10 +76,11 @@ public class ForwardWordTable
    * 
    * @param  word the word
    * @return      the word id of the given word
+   * @throws IOException
    */
-  public Integer getWordID (String word)
+  public Integer getWordID (String word) throws IOException
   {
-    return ForwardWordTable.hashtable.get (word);
+    return (Integer) ForwardWordTable.hashtable.get (word);
   }
 
   /**
@@ -81,8 +89,9 @@ public class ForwardWordTable
    * 
    * @param word the word to be inserted
    * @param id   the associated id to be inserted
+   * @throws IOException 
    */
-  public void insertWord (String word, int id)
+  public void insertWord (String word, int id) throws IOException
   {
     ForwardWordTable.hashtable.put (word, id);
   }
@@ -93,10 +102,11 @@ public class ForwardWordTable
    * 
    * @param  word check the word whether it exists
    * @return      true if the word exists
+   * @throws IOException 
    */
-  public boolean hasWord (String word)
+  public boolean hasWord (String word) throws IOException
   {
-    return (WordTable.hashtable.get (word) == null);
+    return (ForwardWordTable.hashtable.get (word) == null);
   }
 
   /**
@@ -107,16 +117,6 @@ public class ForwardWordTable
   public FastIterator keys() throws IOException
   {
     return ForwardWordTable.hashtable.keys();
-  }
-
-  /**
-   * This method returns an enumeration of the keys
-   * @return an enumeration of the keys
-   * @throws IOException
-   */
-  public FastIterator keys() throws IOException
-  {
-    return ForwardWordWord.hashtable.keys();
   }
 
   /**
