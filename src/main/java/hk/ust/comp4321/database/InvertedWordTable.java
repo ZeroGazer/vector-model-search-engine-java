@@ -1,5 +1,7 @@
 package hk.ust.comp4321.database;
 
+import java.io.IOException;
+
 import jdbm.helper.FastIterator;
 import jdbm.htree.HTree;
 import jdbm.RecordManager;
@@ -83,5 +85,17 @@ public class InvertedWordTable
   public void insertWordId (int id, String word)
   {
     InvertedWordTable.hashtable.put (id, word);
+  }
+
+  /**
+   * This method commits all changes since beginning of transaction and
+   * terminates.
+   * 
+   * @throws IOException
+   */
+  public void terminate() throws IOException
+  {
+    recman.commit();
+    recman.close();
   }
 }

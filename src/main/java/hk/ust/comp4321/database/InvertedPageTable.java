@@ -1,5 +1,7 @@
 package hk.ust.comp4321.database;
 
+import java.io.IOException;
+
 import jdbm.helper.FastIterator;
 import jdbm.htree.HTree;
 import jdbm.RecordManager;
@@ -90,5 +92,17 @@ public class InvertedPageTable
     
     // Insert pageInfo
     InvertedPageTable.hashtable.put (id, pageInfo);
+  }
+
+  /**
+   * This method commits all changes since beginning of transaction and
+   * terminates.
+   * 
+   * @throws IOException
+   */
+  public void terminate() throws IOException
+  {
+    recman.commit();
+    recman.close();
   }
 }

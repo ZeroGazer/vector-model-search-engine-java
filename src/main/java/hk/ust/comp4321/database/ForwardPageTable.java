@@ -1,5 +1,7 @@
 package hk.ust.comp4321.database;
 
+import java.io.IOException;
+
 import jdbm.helper.FastIterator;
 import jdbm.htree.HTree;
 import jdbm.RecordManager;
@@ -95,5 +97,17 @@ public class ForwardPageTable
   public boolean hasURL (String url)
   {
     return (ForwardPageTable.hashtable.get (url) != null);
+  }
+
+  /**
+   * This method commits all changes since beginning of transaction and
+   * terminates.
+   * 
+   * @throws IOException
+   */
+  public void terminate() throws IOException
+  {
+    recman.commit();
+    recman.close();
   }
 }
