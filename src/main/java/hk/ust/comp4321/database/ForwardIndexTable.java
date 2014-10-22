@@ -1,5 +1,9 @@
 package hk.ust.comp4321.database;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import jdbm.helper.FastIterator;
 import jdbm.htree.HTree;
 import jdbm.RecordManager;
@@ -62,38 +66,77 @@ public class ForwardIndexTable
   // -------------------------------------------------------------------------
 
   /**
-   * This method returns the page id with the given url which has been inserted
-   * in the database.
+   * This method returns the doc info with the given page id and word id. If
+   * the doc info does not exist, it returns null.
    * 
-   * @param  url the absolute url of the page
-   * @return     the page id of the given url
+   * @param  pageId       the page id containing the doc info
+   * @return wordId       the word id of the doc info
+   * @throws IOException
    */
-  public Integer getPageID (String url)
+  @SuppressWarnings("unchecked")
+  public DocInfo getDocInfo (int pageId, int wordId) throws IOException
   {
-    return ForwardIndexTable.hashtable.get (url);
+    List<DocInfo> docInfoList = (List<DocInfo>)ForwardIndexTable.
+                                    hashtable.get (pageId);
+
+    // Check if the list does not exist
+    if(docInfoList == null)
+      return null;
+    else
+      {
+        // Find the doc info
+        for(int i = 0; i < docInfoList.size(); i++)
+          if(docInfoList.get (i).getId() = wordId)
+            return docInfo = docInfoList.get (i);
+        return null;
+      }
   }
 
   /**
-   * This method inserts a url which is not in the database and its associated
-   * page id.
+   * This method inserts a doc info, if the doc info exists, it will be
+   * replaced.
    * 
-   * @param url the url to be inserted
-   * @param id  the associated id to be inserted
+   * @param  id            the doc id to be inserted
+   * @param  pageInfo      the associated doc info to be inserted
+   * @throws IOException
    */
-  public void insertURL (String url, int id)
+  public void insertDocInfo (int id, DocInfo docInfo) throws IOException
   {
-    ForwardIndexTable.hashtable.put (url, id);
+    @SuppressWarnings("unchecked")
+    List<DocInfo> docInfoList = (List<DocInfo>)ForwardIndexTable.
+                                                     hashtable.get (id);
+
+    // Check if the list does not exist
+    if(docInfoList == null)
+      docInfoList = new ArrayList<DocInfo>();
+
+    // Check if the doc info has already existed, if yes then remove it 
+    for(int i = 0; i < docInfoList.size(); i++)
+      {
+        if(docInfoList.get (i).getId() = docInfo.getId())
+          {
+            indexInfoList.remove (docInfoList.get (i));
+            break;
+          }
+      }
+
+    // Add doc info to the list
+    docInfoList.add (docInfo);
+
+    // Add the list to the database
+    ForwardIndexTable.hashtable.remove (id);
+    ForwardIndexTable.hashtable.put (id, docInfoList);
   }
 
   /**
-   * This method checks a page url whether it has been already inserted in the
-   * page table.
+   * This method commits all changes since beginning of transaction and
+   * terminates.
    * 
-   * @param  url check the url whether it exists
-   * @return     true if the url exists
+   * @throws IOException
    */
-  public boolean hasURL (String url)
+  public void terminate() throws IOException
   {
-    return (ForwardIndexTable.hashtable.get (url) != null);
+    recman.commit();
+    recman.close();
   }
 }
