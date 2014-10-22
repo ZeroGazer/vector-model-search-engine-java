@@ -14,7 +14,7 @@ public class PageInfo
 
   private String url;
   private String title;
-  private int size;
+  private long size;
   private Date lastModificationDate;
 
   // Constructors.
@@ -29,7 +29,7 @@ public class PageInfo
    * @param size                 the size of the page in byte
    * @param lastModificationDate the last modification date of the page
    */
-  public PageInfo (String url, String title, int size,
+  public PageInfo (String url, String title, long size,
                    Date lastModificationDate)
   {
     this.url = url;
