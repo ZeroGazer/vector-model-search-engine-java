@@ -66,11 +66,24 @@ public class ForwardIndexTable
   // -------------------------------------------------------------------------
 
   /**
+   * This method returns the list of doc info with the given page id.
+   * 
+   * @param pageId the page id containing the doc info
+   * @return list of doc info with the given page id
+   * @throws IOException
+   */
+  public List<DocInfo> getDocInfoList (int pageId) throws IOException
+  {
+      return (List<DocInfo>)ForwardIndexTable.hashtable.get (pageId);
+  }
+
+  /**
    * This method returns the doc info with the given page id and word id. If
    * the doc info does not exist, it returns null.
    * 
    * @param  pageId       the page id containing the doc info
-   * @return wordId       the word id of the doc info
+   * @param  wordId       the word id of the doc info
+   * @return doc info with the given page id and word id
    * @throws IOException
    */
   @SuppressWarnings("unchecked")

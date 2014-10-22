@@ -76,6 +76,18 @@ public class InvertedIndexTable
   // -------------------------------------------------------------------------
 
   /**
+   * This method returns the list of index info with the given word id.
+   * 
+   * @param wordId the word id containing the index info
+   * @return the list of index info with the given word id
+   * @throws IOException
+   */
+  public List<IndexInfo> getIndexInfoList (int wordId) throws IOException
+  {
+      return (List<IndexInfo>)InvertedIndexTable.hashtable.get (wordId);
+  }
+
+  /**
    * This method returns the index info with the given word id and page id. If
    * the index info does not exist, it returns null.
    * 
