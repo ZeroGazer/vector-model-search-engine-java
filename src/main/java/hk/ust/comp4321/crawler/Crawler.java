@@ -1,8 +1,14 @@
 package hk.ust.comp4321.crawler;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Vector;
+
+import org.htmlparser.beans.LinkBean;
+import org.htmlparser.util.ParserException;
 
 import hk.ust.comp4321.database.IDGenerator;
+import hk.ust.comp4321.database.InvertedPageTable;
 
 /**
  * 
@@ -48,7 +54,7 @@ public class Crawler
     		  Extractor extractor = new Extractor(this.url, this.wordIdGenerator,
                                           this.pageIdGenerator);
       }
-    catch (IOException ex)
+    catch (IOException | ParserException ex)
       {
         System.err.println(ex.toString());
       }
