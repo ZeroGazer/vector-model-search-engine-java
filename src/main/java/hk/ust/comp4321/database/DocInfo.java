@@ -10,7 +10,7 @@ public class DocInfo
   //Constants and fields.
   // -------------------------------------------------------------------------
 
-  private String word;
+  private int id;
   private int frequency;
 
   // Constructors.
@@ -35,7 +35,7 @@ public class DocInfo
    */
   public int getId()
   {
-    return this.word;
+    return this.id;
   }
 
   /**
