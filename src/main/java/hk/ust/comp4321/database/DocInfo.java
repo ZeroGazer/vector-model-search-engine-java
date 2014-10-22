@@ -1,10 +1,12 @@
 package hk.ust.comp4321.database;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Alex Poon
  */
-public class DocInfo
+public class DocInfo implements Serializable
 {
 
   //Constants and fields.

@@ -1,12 +1,13 @@
 package hk.ust.comp4321.database;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 
  * @author Alex Poon
  */
-public class PageInfo
+public class PageInfo implements Serializable
 {
 
   // Constants and fields.

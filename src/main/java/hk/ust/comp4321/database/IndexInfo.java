@@ -1,10 +1,12 @@
 package hk.ust.comp4321.database;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Alex Poon
  */
-public class IndexInfo
+public class IndexInfo implements Serializable
 {
 
   //Constants and fields.
@@ -27,6 +29,9 @@ public class IndexInfo
     this.id = id;
     this.frequency = frequency;
   }
+
+  // Instance methods.
+  // -------------------------------------------------------------------------
 
   /**
    * This method returns the index id of the index instance.
