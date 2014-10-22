@@ -117,15 +117,15 @@ public class ForwardIndexTable
    * This method inserts a doc info, if the doc info exists, it will be
    * replaced.
    * 
-   * @param  id            the doc id to be inserted
+   * @param  pageId            the doc id to be inserted
    * @param  pageInfo      the associated doc info to be inserted
    * @throws IOException
    */
-  public void insertDocInfo (int id, DocInfo docInfo) throws IOException
+  public void insertDocInfo (int pageId, DocInfo docInfo) throws IOException
   {
     @SuppressWarnings("unchecked")
     List<DocInfo> docInfoList = (List<DocInfo>)ForwardIndexTable.
-                                                     hashtable.get (id);
+                                                     hashtable.get (pageId);
 
     // Check if the list does not exist
     if(docInfoList == null)
@@ -145,8 +145,8 @@ public class ForwardIndexTable
     docInfoList.add (docInfo);
 
     // Add the list to the database
-    ForwardIndexTable.hashtable.remove (id);
-    ForwardIndexTable.hashtable.put (id, docInfoList);
+    ForwardIndexTable.hashtable.remove (pageId);
+    ForwardIndexTable.hashtable.put (pageId, docInfoList);
   }
 
   /**
