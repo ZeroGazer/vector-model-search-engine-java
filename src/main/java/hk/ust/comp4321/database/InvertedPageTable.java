@@ -40,7 +40,7 @@ public class InvertedPageTable
         // create a hash table in the RecordManager
         hashtable = HTree.createInstance (recman); 
         // set the name of the hash table to "InvertedPageTable"
-        recman.setNamedObject ( "InvertedPageTable", hashtable.getRecid() ); 
+        recman.setNamedObject ("InvertedPageTable", hashtable.getRecid()); 
       }
   }
 
@@ -82,6 +82,13 @@ public class InvertedPageTable
    */
   public void insertPageId (int id, PageInfo pageInfo)
   {
+    PageInfo pageInfo = InvertedPageTable.hashtable.get (id);
+    
+    // If the page id has already existed, then remove it
+    if(pageInfo != null)
+      InvertedPageTable.hashtable.remove (id);
+    
+    // Insert pageInfo
     InvertedPageTable.hashtable.put (id, pageInfo);
   }
 }

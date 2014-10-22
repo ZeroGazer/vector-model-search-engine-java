@@ -75,17 +75,40 @@ public class InvertedIndexTable
   // -------------------------------------------------------------------------
 
   /**
-   * This method returns the list of doc id and frequency with the given index
-   * id which has been inserted in the database.
+   * This method returns the page info with the given word id and page id which
+   * has been inserted in the database.
    * 
-   * @param  id           the index id of the index
+   * @param  indexId      the index id of the index
    * @return              the list of index info of the given index id
    * @throws IOException
    */
   @SuppressWarnings("unchecked")
-  public List<IndexInfo> getIndexInfo (int id) throws IOException
+  public IndexInfo getIndexInfo (int wordId, int pageId) throws IOException
   {
-    return (List<IndexInfo>)InvertedIndexTable.hashtable.get (id);
+    List<IndexInfo> indexInfoList = (List<IndexInfo>)InvertedIndexTable.
+                                    hashtable.get (wordId);
+
+    // Check if the list does not exist
+    if(indexInfoList == null)
+      return null;
+    else
+      {
+        // Find the index info
+        IndexInfo indexInfo = null;
+        for(int i = 0; i < indexInfoList.size(); i++)
+          {
+            if(indexInfoList.get(i).getId() = pageId)
+              {
+                indexInfo = indexInfoList.get (i);
+                break;
+              }
+          }
+        // Check if the index info does not exist
+        if(indexInfo == null)
+          return null;
+        else
+          return indexInfo;
+      }
   }
 
   /**
@@ -100,10 +123,28 @@ public class InvertedIndexTable
   {
     @SuppressWarnings("unchecked")
     List<IndexInfo> indexInfoList = (List<IndexInfo>)InvertedIndexTable.
-                                                     hashtable.get(id);
+                                                     hashtable.get (id);
+
+    // Check if the list does not exist
     if(indexInfoList == null)
       indexInfoList = new ArrayList<IndexInfo>();
-    indexInfoList.add(indexInfo);
+    indexInfoList.add (indexInfo);
+
+    // Check if the index info has already existed, if yes then remove it 
+    for(int i = 0; i < indexInfoList.size(); i++)
+      {
+        if(indexInfoList.get(i).getId() = indexInfo.getId())
+          {
+            indexInfoList.remove (indexInfoList.get(i));
+            break;
+          }
+      }
+
+    // Add indexInfo to the list
+    indexInfoList.add (indexInfo);
+
+    // Add the list to the database
+    InvertedIndexTable.hashtable.remove (id);
     InvertedIndexTable.hashtable.put (id, indexInfoList);
   }
 
