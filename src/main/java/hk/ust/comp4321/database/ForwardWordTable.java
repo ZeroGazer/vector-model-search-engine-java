@@ -106,7 +106,7 @@ public class ForwardWordTable
    */
   public boolean hasWord (String word) throws IOException
   {
-    return (ForwardWordTable.hashtable.get (word) == null);
+    return (ForwardWordTable.hashtable.get (word) != null);
   }
 
   /**
