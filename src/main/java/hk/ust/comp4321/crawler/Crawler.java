@@ -7,8 +7,13 @@ import java.util.Vector;
 import org.htmlparser.beans.LinkBean;
 import org.htmlparser.util.ParserException;
 
+import hk.ust.comp4321.database.ForwardIndexTable;
+import hk.ust.comp4321.database.ForwardPageTable;
+import hk.ust.comp4321.database.ForwardWordTable;
 import hk.ust.comp4321.database.IDGenerator;
+import hk.ust.comp4321.database.InvertedIndexTable;
 import hk.ust.comp4321.database.InvertedPageTable;
+import hk.ust.comp4321.database.InvertedWordTable;
 
 /**
  * 
@@ -22,6 +27,7 @@ public class Crawler
   // -------------------------------------------------------------------------
   
   private String url;
+  private static String originUrl = "http://www.cse.ust.hk";
   private InvertedPageTable invertedPageTable;
   private IDGenerator wordIdGenerator = new IDGenerator();
   private IDGenerator pageIdGenerator = new IDGenerator();
@@ -35,7 +41,8 @@ public class Crawler
   
   public Crawler(String url)
   {
-    this.url = url;
+    this.originUrl = url;
+    this.url = this.originUrl;
     //library http://downloads.sourceforge.net/htmlparser/htmlparser1_6_20060610.zip?modtime=1149940066&big_mirror=0 is needed
     v_link.addElement(this.url);
     do 
@@ -60,6 +67,24 @@ public class Crawler
         {
           System.err.println(ex.toString());
         }
-    
+    try
+      {
+        // Commit all tables
+        ForwardIndexTable.getTable().terminate();
+        ForwardPageTable.getTable().terminate();
+        ForwardWordTable.getTable().terminate();
+        InvertedIndexTable.getTable().terminate();
+        InvertedPageTable.getTable().terminate();
+        InvertedWordTable.getTable().terminate();
+      }
+    catch (IOException ex)
+      {
+        System.err.println(ex.toString());
+      }
+  }
+
+  public static void main(String[] args)
+  {
+    Crawler clawler = new Crawler("http://www.cse.ust.hk");
   }
 }

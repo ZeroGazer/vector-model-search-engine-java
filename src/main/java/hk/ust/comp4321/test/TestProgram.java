@@ -1,6 +1,5 @@
-package hk.ust.comp4321.main;
+package hk.ust.comp4321.test;
 
-import hk.ust.comp4321.crawler.Crawler;
 import hk.ust.comp4321.database.DocInfo;
 import hk.ust.comp4321.database.ForwardIndexTable;
 import hk.ust.comp4321.database.ForwardPageTable;
@@ -23,7 +22,7 @@ import jdbm.helper.FastIterator;
  * @author Alex Poon
  *
  */
-public class Main
+public class TestProgram
 {
 
   // Class methods.
@@ -36,9 +35,6 @@ public class Main
         // Setup output file
         PrintStream out = new PrintStream(new FileOutputStream(
                                       "spider_result.txt"));
-    
-        // Extract pages
-        Crawler clawler = new Crawler("http://www.cse.ust.hk");
 
         // Output results
         InvertedPageTable invertedPageTable = InvertedPageTable.getTable();
