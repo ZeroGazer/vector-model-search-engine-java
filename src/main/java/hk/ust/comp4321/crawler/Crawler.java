@@ -32,34 +32,54 @@ public class Crawler
   private IDGenerator wordIdGenerator = new IDGenerator();
   private IDGenerator pageIdGenerator = new IDGenerator();
   private final int TotalNumOfPage = 30;
-  private int InUseURL = 1;
+  private int InUseURL = 0;
+  private int NumofPageExtracted = 1;
+	private String[][] v_link = new String[30][2];
   private Vector<String> v_link = new Vector<String>();
   private LinkBean lb = new LinkBean();
+  
   
   // Constructors.
   // -------------------------------------------------------------------------
   
+  public boolean ExistLink(String url) 
+	{
+		for(int i=0; i<TotalNumOfPage; i++)
+			if(v_link[i][1] == url)
+				return true;
+		return false;
+	}
+	
   public Crawler(String url)
   {
     this.originUrl = url;
     this.url = this.originUrl;
-    v_link.addElement(this.url);
-    do 
-    {
-    	lb.setURL(this.url);
-    	URL[] URL_array = lb.getLinks();
-    	for(int i=0; i<URL_array.length && v_link.size()<TotalNumOfPage; i++)
-    	  if(!(v_link.contains(URL_array[i].toString())))
-    	    v_link.addElement(URL_array[i].toString());
-    	InUseURL++;
-    	// no exception handling if we can't crawle 30 pages
-    	this.url = v_link.get(InUseURL);
-    } while (v_link.size() < TotalNumOfPage);
+    // [x][0]: parent link, [x][1]:child link;
+    v_link[0][0] = this.url;
+		v_link[0][1] = this.url;
+		do
+		{
+		 lb.setURL(this.url);
+		 URL[] URL_array = lb.getLinks();
+		 for(int i = 0; i <= URL_array.length && NumofPageExtracted<TotalNumOfPage; i++)
+			 {
+			 	if(!ExistLink(URL_array[i].toString()) && NumofPageExtracted<TotalNumOfPage)
+			 	{
+			 		v_link[NumofPageExtracted][0] = this.url;
+			 		v_link[NumofPageExtracted][1] = URL_array[i].toString();
+			 		NumofPage++;
+			 	}
+			 }
+		 InUseURL++;
+		 // no exception handling if we can't crawle 30 pages
+		 this.url = v_link[InUseURL][1];
+		 } while (NumofPageExtracted < TotalNumOfPage);
+
     // Extract 30 pages
-    for(int i = 0; i < v_link.size(); i++)
+    for(int i = 0; i < TotalNumOfPage; i++)
       try
         {
-    		  Extractor extractor = new Extractor(this.url, v_link.get(i),
+    		  Extractor extractor = new Extractor(v_link[i][0], v_link[i][1],
     		                                      this.wordIdGenerator,
     		                                      this.pageIdGenerator);
         }
