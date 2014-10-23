@@ -33,9 +33,8 @@ public class Crawler
   private IDGenerator pageIdGenerator = new IDGenerator();
   private final int TotalNumOfPage = 30;
   private int InUseURL = 0;
-  private int NumofPageExtracted = 1;
+  private int NUM_OF_PAGE_EXTRACTED = 1;
 	private String[][] v_link = new String[30][2];
-  private Vector<String> v_link = new Vector<String>();
   private LinkBean lb = new LinkBean();
   
   
@@ -61,19 +60,19 @@ public class Crawler
 		{
 		 lb.setURL(this.url);
 		 URL[] URL_array = lb.getLinks();
-		 for(int i = 0; i <= URL_array.length && NumofPageExtracted<TotalNumOfPage; i++)
+		 for(int i = 0; i <= URL_array.length && NUM_OF_PAGE_EXTRACTED<TotalNumOfPage; i++)
 			 {
-			 	if(!ExistLink(URL_array[i].toString()) && NumofPageExtracted<TotalNumOfPage)
+			 	if(!ExistLink(URL_array[i].toString()) && NUM_OF_PAGE_EXTRACTED<TotalNumOfPage)
 			 	{
-			 		v_link[NumofPageExtracted][0] = this.url;
-			 		v_link[NumofPageExtracted][1] = URL_array[i].toString();
-			 		NumofPage++;
+			 		v_link[NUM_OF_PAGE_EXTRACTED][0] = this.url;
+			 		v_link[NUM_OF_PAGE_EXTRACTED][1] = URL_array[i].toString();
+			 		NUM_OF_PAGE_EXTRACTED++;
 			 	}
 			 }
 		 InUseURL++;
 		 // no exception handling if we can't crawle 30 pages
 		 this.url = v_link[InUseURL][1];
-		 } while (NumofPageExtracted < TotalNumOfPage);
+		 } while (NUM_OF_PAGE_EXTRACTED < TotalNumOfPage);
 
     // Extract 30 pages
     for(int i = 0; i < TotalNumOfPage; i++)
