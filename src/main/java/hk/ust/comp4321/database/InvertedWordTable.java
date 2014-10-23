@@ -30,7 +30,7 @@ public class InvertedWordTable
     try
       {
         // Create a RecordManager name "SearchEngineDatabase"
-        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        recman = RecordManagerFactory.createRecordManager ("InvertedWordTable"); 
         // get the record id of the object named "InvertedWordTable"
         long recid = recman.getNamedObject ("InvertedWordTable");
 

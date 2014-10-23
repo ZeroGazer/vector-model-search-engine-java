@@ -32,7 +32,7 @@ public class ForwardIndexTable
     try
       {
         // Create a RecordManager name "SearchEngineDatabase"
-        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        recman = RecordManagerFactory.createRecordManager ("ForwardIndexTable"); 
         // get the record id of the object named "ForwardIndexTable"
         long recid = recman.getNamedObject ("ForwardIndexTable");
 

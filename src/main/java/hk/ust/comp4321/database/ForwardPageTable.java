@@ -30,7 +30,7 @@ public class ForwardPageTable
     try
       {
         // Create a RecordManager name "SearchEngineDatabase"
-        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        recman = RecordManagerFactory.createRecordManager ("ForwardPageTable"); 
         // get the record id of the object named "ForwardPageTable"
         long recid = recman.getNamedObject ("ForwardPageTable");
 

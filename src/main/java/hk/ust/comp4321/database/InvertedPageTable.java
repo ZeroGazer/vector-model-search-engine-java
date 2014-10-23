@@ -30,7 +30,7 @@ public class InvertedPageTable
     try
       {
         // Create a RecordManager name "SearchEngineDatabase"
-        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        recman = RecordManagerFactory.createRecordManager ("InvertedPageTable"); 
         // get the record id of the object named "InvertedPageTable"
         long recid = recman.getNamedObject ("InvertedPageTable");
 

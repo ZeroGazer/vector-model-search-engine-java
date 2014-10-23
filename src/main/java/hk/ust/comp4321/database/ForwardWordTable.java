@@ -30,7 +30,7 @@ public class ForwardWordTable
     try
       {
         // Create a RecordManager name "SearchEngineDatabase"
-        recman = RecordManagerFactory.createRecordManager ("SearchEngineDatabase"); 
+        recman = RecordManagerFactory.createRecordManager ("ForwardWordTable"); 
         // get the record id of the object named "ForwardWordTable"
         long recid = recman.getNamedObject ("ForwardWordTable");
 

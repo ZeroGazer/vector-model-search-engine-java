@@ -34,7 +34,7 @@ public class InvertedIndexTable
       {
         // Create a RecordManager name "SearchEngineDatabase"
         recman = RecordManagerFactory.
-                 createRecordManager ("SearchEngineDatabase"); 
+                 createRecordManager ("InvertedIndexTable"); 
         // get the record id of the object named "InvertedIndexTable"
         long recid = recman.getNamedObject ("InvertedIndexTable");
 
