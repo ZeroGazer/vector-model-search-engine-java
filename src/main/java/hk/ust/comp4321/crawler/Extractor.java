@@ -11,7 +11,9 @@ import hk.ust.comp4321.database.InvertedPageTable;
 import hk.ust.comp4321.database.InvertedWordTable;
 import hk.ust.comp4321.database.PageInfo;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -145,20 +147,21 @@ public class Extractor
 	{    
 	  HttpURLConnection content = (HttpURLConnection)new URL (url)
 	                            .openConnection();
-	  content.disconnect();
-	  if (content.getContentLengthLong() != -1)
+	  long size = content.getContentLengthLong();
+	  if (size != -1)
 	    return content.getContentLength();
 	  else
-	  {
-	    StringBean sb = new StringBean();
-	    Vector<String> v_str = new Vector<String>();
-	    boolean links = false;
-	    sb.setLinks (links);
-	    sb.setURL (url);
-	    String temp = sb.getStrings();
-	    StringTokenizer st = new StringTokenizer(temp, " ");
-	    return st.countTokens();
-	  }
+	    {
+	      size = 0;
+	      BufferedReader in = new BufferedReader(
+	                          new InputStreamReader(content.getInputStream()));
+	      String inputLine;
+
+	      while ((inputLine = in.readLine()) != null)
+	        size += inputLine.length();
+	    }
+	  content.disconnect();
+	  return size;
 	}
 
 	/**
