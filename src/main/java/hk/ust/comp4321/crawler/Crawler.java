@@ -43,14 +43,14 @@ public class Crawler
   {
     this.originUrl = url;
     this.url = this.originUrl;
-    //library http://downloads.sourceforge.net/htmlparser/htmlparser1_6_20060610.zip?modtime=1149940066&big_mirror=0 is needed
     v_link.addElement(this.url);
     do 
     {
     	lb.setURL(this.url);
     	URL[] URL_array = lb.getLinks();
     	for(int i=0; i<URL_array.length && v_link.size()<TotalNumOfPage; i++)
-    		v_link.addElement(URL_array[i].toString());
+    	  if(!(v_link.contains(URL_array[i].toString())))
+    	    v_link.addElement(URL_array[i].toString());
     	InUseURL++;
     	// no exception handling if we can't crawle 30 pages
     	this.url = v_link.get(InUseURL);

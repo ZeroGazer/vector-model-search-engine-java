@@ -60,6 +60,7 @@ public class TestProgram
                 out.print(word + " " + docInfoList.get (i).getFrequency()
                           + "; ");
               }
+            out.println("");
             List<String> childLinks = pageInfo.getChildLinks();
             for(int i = 0; i < childLinks.size(); i++)
               out.println(childLinks.get(i));
