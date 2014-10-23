@@ -5,6 +5,7 @@ import hk.ust.comp4321.database.ForwardIndexTable;
 import hk.ust.comp4321.database.ForwardPageTable;
 import hk.ust.comp4321.database.ForwardWordTable;
 import hk.ust.comp4321.database.IDGenerator;
+import hk.ust.comp4321.database.IndexInfo;
 import hk.ust.comp4321.database.InvertedIndexTable;
 import hk.ust.comp4321.database.InvertedPageTable;
 import hk.ust.comp4321.database.InvertedWordTable;
@@ -199,16 +200,25 @@ public class Extractor
 				    // else add frequency by 1 of that word of that page
 			      wordId = this.forwardWordTable.getWordID (word);
 			    }
+			  // Insert to forward index table
 			  DocInfo docInfo = forwardIndexTable.getDocInfo (this.pageId, wordId);
 			  if(docInfo == null)
 			    forwardIndexTable.insertDocInfo(pageId, new DocInfo(wordId, 1));
 			  else
-			    {
-			      forwardIndexTable.insertDocInfo(pageId, 
-			                                      new DocInfo(wordId,
-			                                                  docInfo.getFrequency()
-			                                                  + 1));
-			    }
+			    forwardIndexTable.insertDocInfo(pageId, 
+			                                    new DocInfo(wordId,
+			                                                docInfo.getFrequency() 
+			                                                + 1));
+			  // Insert to inverted index table
+			  IndexInfo indexInfo = invertedIndexTable.getIndexInfo(wordId, pageId);
+			  if(indexInfo == null)
+			    invertedIndexTable.insertIndexInfo(wordId, new IndexInfo(pageId, 1));
+			  else
+			    invertedIndexTable.insertIndexInfo(wordId,
+			                                       new IndexInfo(pageId,
+			                                                     indexInfo.
+			                                                     getFrequency()
+			                                                     + 1));
 		  }
 	}
 
