@@ -1,6 +1,7 @@
 package hk.ust.comp4321.database;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 
@@ -17,7 +18,7 @@ public class IndexInfo implements Serializable
    */
   private static final long serialVersionUID = -967762972744867492L;
   private int id;
-  private int frequency;
+  private List<Integer> positionList;
 
   // Constructors.
   // -------------------------------------------------------------------------
@@ -28,10 +29,10 @@ public class IndexInfo implements Serializable
    * @param id        the page id
    * @param frequency the associated frequency
    */
-  public IndexInfo(int id, int frequency)
+  public IndexInfo(int id, List<Integer> positionList)
   {
     this.id = id;
-    this.frequency = frequency;
+    this.positionList = positionList;
   }
 
   // Instance methods.
@@ -48,12 +49,12 @@ public class IndexInfo implements Serializable
   }
 
   /**
-   * This method returns the frequency of the index instance.
+   * This method returns the list of word postion of the index instance.
    * 
-   * @return the frequency of the index instance 
+   * @return the list of word postion of the index instance
    */
-  public int getFrequency()
+  public List<Integer> getPositionList()
   {
-    return this.frequency;
+    return this.positionList;
   }
 }

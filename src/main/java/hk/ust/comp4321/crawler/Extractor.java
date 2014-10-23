@@ -176,11 +176,13 @@ public class Extractor
     sb.setLinks (links);
     sb.setURL (url);
     String temp = sb.getStrings();
+    int position = 0;
 
     // Non-word character as symbol to separate word by word
     StringTokenizer st = new StringTokenizer(temp);
 		while (st.hasMoreTokens())
 		  {
+		    position++;
 		    String word = st.nextToken();
 		    if(stopStem.isStopWord(word))
 		      continue;
@@ -211,14 +213,19 @@ public class Extractor
 			                                                + 1));
 			  // Insert to inverted index table
 			  IndexInfo indexInfo = invertedIndexTable.getIndexInfo(wordId, pageId);
+			  List<Integer> positionList;
 			  if(indexInfo == null)
-			    invertedIndexTable.insertIndexInfo(wordId, new IndexInfo(pageId, 1));
+			    {
+			      positionList = new ArrayList<Integer>();
+			      positionList.add(position);
+			      indexInfo = new IndexInfo(pageId, positionList);
+			      invertedIndexTable.insertIndexInfo(wordId, indexInfo);
+			    }
 			  else
-			    invertedIndexTable.insertIndexInfo(wordId,
-			                                       new IndexInfo(pageId,
-			                                                     indexInfo.
-			                                                     getFrequency()
-			                                                     + 1));
+			    {
+			      indexInfo.getPositionList().add(position);
+			      invertedIndexTable.insertIndexInfo(wordId, indexInfo);
+			    }
 		  }
 	}
 
@@ -234,9 +241,8 @@ public class Extractor
 	    LinkBean lb = new LinkBean();
 	    lb.setURL(url);
 	    URL[] URL_array = lb.getLinks();
-	    for(int i=0; i<URL_array.length; i++){
+	    for(int i=0; i<URL_array.length; i++)
 	    	v_link.add (URL_array[i].toString());
-	    }
 	    return v_link;
 	}
 }
