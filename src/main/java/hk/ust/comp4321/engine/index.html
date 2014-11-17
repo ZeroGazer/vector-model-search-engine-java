@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Engine Home Page</title>
+    <script type="text/javascript">
+      function checkInput()
+      {
+    	  var input = document.forms["seachForm"]["query"].value;
+    	  if (input.length == 0) {
+          alert("Please enter a valid query!");
+          return false;
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <form name="seachForm" method="post" action="result.jsp" accept-charset="UTF-8" onsubmit="return checkInput();">
+        Query: <input type="text" name="query">
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </body>
+</html>
