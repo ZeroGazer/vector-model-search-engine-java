@@ -1,10 +1,8 @@
-import java.io.IOException;
-import java.util.List;
+package hk.ust.comp4321.engine;
 
-import main.java.hk.ust.comp4321.database.DocInfo;
-import main.java.hk.ust.comp4321.database.ForwardIndexTable;
-import main.java.hk.ust.comp4321.database.IndexInfo;
-import main.java.hk.ust.comp4321.database.InvertedIndexTable;
+import java.io.IOException;
+
+import hk.ust.comp4321.database.InvertedIndexTable;
 
 /**
  * 
