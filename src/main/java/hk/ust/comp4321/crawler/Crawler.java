@@ -2,7 +2,6 @@ package hk.ust.comp4321.crawler;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Vector;
 
 import org.htmlparser.beans.LinkBean;
 import org.htmlparser.util.ParserException;
@@ -27,14 +26,13 @@ public class Crawler
   // -------------------------------------------------------------------------
   
   private String url;
-  private static String originUrl = "http://www.cse.ust.hk";
-  private InvertedPageTable invertedPageTable;
+  private static String originUrl = "http://www.cse.ust.hk/~ericzhao/COMP4321/TestPages/testpage.htm";
   private IDGenerator wordIdGenerator = new IDGenerator();
   private IDGenerator pageIdGenerator = new IDGenerator();
-  private final int TotalNumOfPage = 30;
+  private final int TotalNumOfPage = 300;
   private int InUseURL = 0;
   private int NUM_OF_PAGE_EXTRACTED = 1;
-	private String[][] v_link = new String[30][2];
+	private String[][] v_link = new String[300][2];
   private LinkBean lb = new LinkBean();
   
   
@@ -43,16 +41,15 @@ public class Crawler
   
   public boolean ExistLink(String url) 
 	{
-		for(int i=0; i<TotalNumOfPage; i++)
+		for(int i=0; i<NUM_OF_PAGE_EXTRACTED; i++)
 			if(v_link[i][1] == url)
 				return true;
 		return false;
 	}
 	
-  public Crawler(String url)
+  public Crawler()
   {
-    this.originUrl = url;
-    this.url = this.originUrl;
+    this.url = Crawler.originUrl;
     // [x][0]: parent link, [x][1]:child link;
     v_link[0][0] = this.url;
 		v_link[0][1] = this.url;
@@ -60,7 +57,7 @@ public class Crawler
 		{
 		 lb.setURL(this.url);
 		 URL[] URL_array = lb.getLinks();
-		 for(int i = 0; i <= URL_array.length && NUM_OF_PAGE_EXTRACTED<TotalNumOfPage; i++)
+		 for(int i = 0; i < URL_array.length && NUM_OF_PAGE_EXTRACTED<TotalNumOfPage; i++)
 			 {
 			 	if(!ExistLink(URL_array[i].toString()) && NUM_OF_PAGE_EXTRACTED<TotalNumOfPage)
 			 	{
@@ -78,7 +75,8 @@ public class Crawler
     for(int i = 0; i < TotalNumOfPage; i++)
       try
         {
-    		  Extractor extractor = new Extractor(v_link[i][0], v_link[i][1],
+    		  @SuppressWarnings("unused")
+          Extractor extractor = new Extractor(v_link[i][0], v_link[i][1],
     		                                      this.wordIdGenerator,
     		                                      this.pageIdGenerator);
         }
@@ -104,6 +102,7 @@ public class Crawler
 
   public static void main(String[] args)
   {
-    Crawler clawler = new Crawler("http://www.cse.ust.hk");
+    @SuppressWarnings("unused")
+    Crawler clawler = new Crawler();
   }
 }

@@ -41,14 +41,16 @@ public class PageRank {
 	 * This constructor encapsulates the query.
 	 * 
 	 * @param query        the query
+	 * @throws IOException 
 	 */
-	private PageRank(String Query)
+	private PageRank(String Query) throws IOException
 	{
 		query = Query;
 		query = query.replace("\"", "");
 		divideQuery = query.split(" ");
-		initializeAllScore();
-		initializeRankedList();
+		this.initializeAllScore();
+		this.initializeRankedList();
+		this.getRankedList();
 	}
 	
 	/**
@@ -248,4 +250,24 @@ public class PageRank {
 			rankedList[rank] = i;
 		}
 	}
+
+	 /**
+   * This method return an array of ranked page id
+   * 
+   * @return ranked page id
+   */
+  public int[] returnRankedList()
+  {
+    return this.rankedList;
+  }
+
+  /**
+   * This method return an array of ranked page id
+   * 
+   * @return ranked page id
+   */
+  public double[] returnTotalSimScore()
+  {
+    return this.totalSimScore;
+  }
 }
