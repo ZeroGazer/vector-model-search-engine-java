@@ -45,6 +45,7 @@ public class PageRank {
 	private PageRank(String Query)
 	{
 		query = Query;
+		query = query.replace("\"", "");
 		divideQuery = query.split(" ");
 		initializeAllScore();
 		initializeRankedList();
