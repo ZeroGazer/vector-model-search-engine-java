@@ -5,15 +5,33 @@
     <script type="text/javascript">
       function checkInput()
         {
-    	  var input = document.forms["seachForm"]["query"].value;
-    	  if (input.length == 0)
+        var input = document.forms["seachForm"]["query"].value;
+        if (input.length == 0)
             {
               alert("Please enter a valid query!");
               return false;
             }
           else
-            setCookie("history", input + "|" + getCookie("history"), 10);
-            return true;
+            {
+              if(isNotSaved(input))
+                setCookie("history", input + "|" + getCookie("history"), 10);
+              return true;
+            }
+        }
+
+      function isNotSaved(query)
+        {
+        var history = getCookie("history");
+          if(history != "")
+            {
+              queryHistory = history.split("|");
+              for(var i = 0; i < queryHistory.length - 1; i++)
+                {
+                  if(query === queryHistory[i])
+                    return false;
+                }
+            }
+         return true;
         }
 
       function getCookie(cname)
@@ -44,15 +62,15 @@
          var queryNode = document.getElementById("query");
          var history = getCookie("history");
          if(history != "")
-            {
-              queryHistory = history.split("|");
-              for(var i = 0; i < queryHistory.length - 1; i++)
-                {
-                  var option = document.createElement("option");
-                  option.setAttribute("value", queryHistory[i]);
-                  queryNode.appendChild(option);
-                }
-            }
+           {
+             queryHistory = history.split("|");
+             for(var i = 0; i < queryHistory.length - 1; i++)
+               {
+                 var option = document.createElement("option");
+                 option.setAttribute("value", queryHistory[i]);
+                 queryNode.appendChild(option);
+               }
+           }
        }
             </script>
     </script>
