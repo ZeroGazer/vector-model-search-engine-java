@@ -45,6 +45,10 @@ public class PageRank {
 	 */
 	public PageRank(String Query) throws IOException
 	{
+	  forwardWordTable = ForwardWordTable.getTable();
+	  forwardIndexTable = ForwardIndexTable.getTable();
+	  invertedIndexTable = InvertedIndexTable.getTable();
+	  invertedPageTable = InvertedPageTable.getTable();
 		query = Query;
 		query = query.replace("\"", "");
 		divideQuery = query.split(" ");

@@ -52,6 +52,7 @@ public class TermWeight {
 	 */
 	public double getTermWeight() throws IOException
 	{
+	  invertedIndexTable = InvertedIndexTable.getTable();
 		int tfmax=0;
 		int tf = invertedIndexTable.getIndexInfo(wordId, pageId).getPositionList().size(); //tf
 		int numOfPage = invertedIndexTable.getIndexInfoList(wordId).size(); //df
