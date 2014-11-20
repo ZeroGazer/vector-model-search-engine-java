@@ -52,15 +52,15 @@ public class TermWeight {
 	 */
 	public double getTermWeight() throws IOException
 	{
-	  invertedIndexTable = InvertedIndexTable.getTable();
+	  	invertedIndexTable = InvertedIndexTable.getTable();
 		int tfmax=0;
 		int tf = invertedIndexTable.getIndexInfo(wordId, pageId).getPositionList().size(); //tf
 		int numOfPage = invertedIndexTable.getIndexInfoList(wordId).size(); //df
 		for(int i=0; i<numOfPage; i++) // max. tf
 		{
-			if (invertedIndexTable.getIndexInfoList(wordId).get(i).getPositionList().size() > tfmax)
+			if (invertedIndexTable.getIndexInfoList(wordId, i).getPositionList().size() > tfmax)
 			{
-				tfmax = invertedIndexTable.getIndexInfoList(wordId).get(i).getPositionList().size();
+				tfmax = invertedIndexTable.getIndexInfoList(wordId, i).getPositionList().size();
 			}
 		}
 		return (tf/tfmax)*log2(totalPage/numOfPage);
