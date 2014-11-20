@@ -18,7 +18,7 @@ public class TermWeight {
 	InvertedIndexTable invertedIndexTable;
 	private int wordId;
 	private int pageId;
-	private final int totalPage = 300;
+	private final int totalPage = 300; //N
 	
 	// Constructors.
 	// -------------------------------------------------------------------------
@@ -54,7 +54,7 @@ public class TermWeight {
 	{
 		int tfmax=0;
 		int tf = invertedIndexTable.getIndexInfo(wordId, pageId).getPositionList().size(); //tf
-		int numOfPage = invertedIndexTable.getIndexInfoList(wordId).size(); //N
+		int numOfPage = invertedIndexTable.getIndexInfoList(wordId).size(); //df
 		for(int i=0; i<numOfPage; i++) // max. tf
 		{
 			if (invertedIndexTable.getIndexInfoList(wordId).get(i).getPositionList().size() > tfmax)
@@ -62,6 +62,6 @@ public class TermWeight {
 				tfmax = invertedIndexTable.getIndexInfoList(wordId).get(i).getPositionList().size();
 			}
 		}
-		return tf*tfmax/log2(numOfPage/totalPage);
+		return tf*tfmax/log2(totalPage/numOfPage);
 	}
 }
