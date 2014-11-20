@@ -4,19 +4,65 @@
     <title>Search Engine Home Page</title>
     <script type="text/javascript">
       function checkInput()
-      {
+        {
     	  var input = document.forms["seachForm"]["query"].value;
-    	  if (input.length == 0) {
-          alert("Please enter a valid query!");
-          return false;
+    	  if (input.length == 0)
+            {
+              alert("Please enter a valid query!");
+              return false;
+            }
+          else
+            setCookie("history", input + "|" + getCookie("history"), 10);
+            return true;
         }
-      }
+
+      function getCookie(cname)
+        {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0; i<ca.length; i++)
+            {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1);
+              if (c.indexOf(name) != -1)
+                return c.substring(name.length,c.length);
+            }
+          return "";
+        }
+
+     function setCookie(cname, cvalue, exdays)
+       {
+         var d = new Date();
+         d.setTime(d.getTime() + (exdays*24*60*60*1000));
+         var expires = "expires="+d.toUTCString();
+         document.write(getCookie("history"));
+         document.cookie = cname + "=" + cvalue + "; " + expires;
+       }
+
+     function onLoad()
+       {
+         var queryNode = document.getElementById("query");
+         var history = getCookie("history");
+         if(history != "")
+            {
+              queryHistory = history.split("|");
+              for(var i = 0; i < queryHistory.length - 1; i++)
+                {
+                  var option = document.createElement("option");
+                  option.setAttribute("value", queryHistory[i]);
+                  queryNode.appendChild(option);
+                }
+            }
+       }
+            </script>
     </script>
   </head>
-  <body>
+  <body onload="onLoad()">
     <div style="text-align: center">
       <form name="seachForm" method="post" action="result.jsp" accept-charset="UTF-8" onsubmit="return checkInput();">
-        Query: <input type="text" name="query">
+        Query: <input list="query" name="query">
+          <datalist id="query">
+          </datalist> 
         <input type="submit" value="Submit">
       </form>
     </div>
