@@ -152,10 +152,10 @@ public class PageRank {
 				}
 			}
 		}
-		for(int i=0; i<totalPage; i++)
-		{
-			cosSimScore[i] = cosSimScore[i]/(getPageLength(i)*getQueryLength());
-		}
+		//for(int i=0; i<totalPage; i++)
+		//{
+		//	cosSimScore[i] = cosSimScore[i]/(getPageLength(i)*getQueryLength());
+		//}
 	}
 	
 	/**
@@ -212,10 +212,10 @@ public class PageRank {
 				}
 			}
 		}
-		for(int i=0; i<totalPage; i++)
-		{
-			titleSimScore[i] = titleSimScore[i]/(getTitleLength(i)*getQueryLength());
-		}
+		//for(int i=0; i<totalPage; i++)
+		//{
+		//	titleSimScore[i] = titleSimScore[i]/(getTitleLength(i)*getQueryLength());
+		//}
 	}
 	
 	/**
@@ -226,8 +226,8 @@ public class PageRank {
 	{
 		findCosSim();
 		findTitleSim();
-		final double weightOfTitle = 0.7;
-		final double weightOfCosSim = 0.3;
+		final double weightOfTitle = 0;
+		final double weightOfCosSim = 1;
 		for(int i=0; i<totalPage; i++)
 		{
 			totalSimScore[i] = weightOfTitle*titleSimScore[i] + weightOfCosSim*cosSimScore[i];
