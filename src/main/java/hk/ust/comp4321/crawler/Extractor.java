@@ -15,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -23,25 +22,11 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import javax.swing.text.html.HTMLDocument;
-
-import org.htmlparser.filters.AndFilter;
-import org.htmlparser.filters.NodeClassFilter;
 import org.htmlparser.beans.LinkBean;
 import org.htmlparser.beans.StringBean;
-import org.htmlparser.Node;
-import org.htmlparser.NodeFilter;
 import org.htmlparser.Parser;
-import org.htmlparser.tags.LinkTag;
-import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import sun.net.www.URLConnection;
+import org.htmlparser.visitors.HtmlPage;
 
 /**
  * 
@@ -114,10 +99,14 @@ public class Extractor
 	 * 
 	 * @return title of the webpage
 	 * @throws IOException 
+	 * @throws ParserException 
 	 */
-	private String extractTitle() throws IOException
+	private String extractTitle() throws IOException, ParserException
 	{
-		return Jsoup.connect (url).get().title();
+	  Parser parser = new Parser(this.url);
+	  HtmlPage htmlpage = new HtmlPage(parser);
+	  parser.visitAllNodesWith(htmlpage);
+	  return htmlpage.getTitle();
 	}
 
 	/**
@@ -174,7 +163,6 @@ public class Extractor
 		// Extract words in url and return them
 		// Use StringTokenizer to tokenize the result from StringBean
 		StringBean sb = new StringBean();
-		Vector<String> v_str = new Vector<String>();
     boolean links = false;
     sb.setLinks (links);
     sb.setURL (url);
