@@ -62,6 +62,6 @@ public class TermWeight {
 				tfmax = invertedIndexTable.getIndexInfoList(wordId).get(i).getPositionList().size();
 			}
 		}
-		return tf*tfmax/log2(totalPage/numOfPage);
+		return (tf/tfmax)*log2(totalPage/numOfPage);
 	}
 }
