@@ -1,14 +1,14 @@
-package main.java.hk.ust.comp4321.crawler;
+package hk.ust.comp4321.engine;
 
-import main.java.hk.ust.comp4321.database.ForwardIndexTable;
-import main.java.hk.ust.comp4321.database.InvertedIndexTable;
+import hk.ust.comp4321.database.ForwardIndexTable;
+import hk.ust.comp4321.database.InvertedIndexTable;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import main.java.hk.ust.comp4321.database.ForwardWordTable;
+import hk.ust.comp4321.database.ForwardWordTable;
 
 /**
  * 
