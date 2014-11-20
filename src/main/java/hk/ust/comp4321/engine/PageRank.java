@@ -43,7 +43,7 @@ public class PageRank {
 	 * @param query        the query
 	 * @throws IOException 
 	 */
-	private PageRank(String Query) throws IOException
+	public PageRank(String Query) throws IOException
 	{
 		query = Query;
 		query = query.replace("\"", "");
