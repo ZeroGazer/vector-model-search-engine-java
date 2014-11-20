@@ -249,7 +249,7 @@ public class PageRank {
 				if(i!=j && totalSimScore[i] > totalSimScore[j])
 					rank--;
 			}
-			while(rankedList[rank] != -1)	// The ranking is occupied
+			while(rankedList[rank] == -1)	// The ranking is occupied
 				rank--;
 			rankedList[rank] = i;
 		}
