@@ -99,7 +99,7 @@ public class PageRank {
 			{
 				countedElement.add(i);
 				int counter = 1;
-				for(int j=0; i<copyQuery.length; j++)
+				for(int j=0; j<copyQuery.length; j++)
 				{
 					if (i!=j && copyQuery[i].equals(copyQuery[j]))
 						{
@@ -176,7 +176,7 @@ public class PageRank {
 			{
 				countedElement.add(i);
 				int counter = 1;
-				for(int j=0; i<divideTitle.length; j++)
+				for(int j=0; j<divideTitle.length; j++)
 				{
 					if (i!=j && divideTitle[i].equals(divideTitle[j]))
 						{
