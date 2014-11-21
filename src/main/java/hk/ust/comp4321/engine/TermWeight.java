@@ -2,6 +2,7 @@ package hk.ust.comp4321.engine;
 
 import java.io.IOException;
 
+import hk.ust.comp4321.database.ForwardIndexTable;
 import hk.ust.comp4321.database.InvertedIndexTable;
 
 /**
@@ -16,6 +17,7 @@ public class TermWeight {
 	// -------------------------------------------------------------------------	
 	
 	InvertedIndexTable invertedIndexTable;
+	ForwardIndexTable forwardIndexTable;
 	private int wordId;
 	private int pageId;
 	private final int totalPage = 300; //N
@@ -33,6 +35,8 @@ public class TermWeight {
 	{
 		wordId = WordId;
 		pageId = PageId;
+		forwardIndexTable = ForwardIndexTable.getTable();
+		invertedIndexTable = InvertedIndexTable.getTable();
 	}
 	
 	/**
@@ -52,15 +56,14 @@ public class TermWeight {
 	 */
 	public double getTermWeight() throws IOException
 	{
-	  	invertedIndexTable = InvertedIndexTable.getTable();
 		int tfmax=0;
 		int tf = invertedIndexTable.getIndexInfo(wordId, pageId).getPositionList().size(); //tf
 		int numOfPage = invertedIndexTable.getIndexInfoList(wordId).size(); //df
-		for(int i=0; i<numOfPage; i++) // max. tf
+		for(int i=0; i<forwardIndexTable.getDocInfoList(pageId).size(); i++) // max. tf
 		{
-			if (invertedIndexTable.getIndexInfoList(wordId).get(i).getPositionList().size() > tfmax)
+			if (forwardIndexTable.getDocInfoList(pageId).get(i).getFrequency() > tfmax)
 			{
-				tfmax = invertedIndexTable.getIndexInfoList(wordId).get(i).getPositionList().size();
+				tfmax = forwardIndexTable.getDocInfoList(pageId).get(i).getFrequency();
 			}
 		}
 		return (tf/tfmax)*log2(totalPage/numOfPage);
