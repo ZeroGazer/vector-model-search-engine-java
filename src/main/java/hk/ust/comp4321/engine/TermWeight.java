@@ -44,7 +44,7 @@ public class TermWeight {
 	 * 
 	 * @param n        number needed to be log
 	 */
-	private static double log2(int n)
+	private static double log2(double n)
 	{
 	    return (Math.log(n) / Math.log(2));
 	}
@@ -56,8 +56,8 @@ public class TermWeight {
 	 */
 	public double getTermWeight() throws IOException
 	{
-		int tfmax=0;
-		int tf = invertedIndexTable.getIndexInfo(wordId, pageId).getPositionList().size(); //tf
+		double tfmax=0;
+		double tf = invertedIndexTable.getIndexInfo(wordId, pageId).getPositionList().size(); //tf
 		int numOfPage = invertedIndexTable.getIndexInfoList(wordId).size(); //df
 		for(int i=0; i<forwardIndexTable.getDocInfoList(pageId).size(); i++) // max. tf
 		{
@@ -66,6 +66,6 @@ public class TermWeight {
 				tfmax = forwardIndexTable.getDocInfoList(pageId).get(i).getFrequency();
 			}
 		}
-		return (tf/tfmax)*log2(totalPage/numOfPage);
+		return (tf/tfmax)*log2(((double)totalPage)/numOfPage);
 	}
 }

@@ -58,7 +58,7 @@ public class PageRank {
 	}
 	
 	/**
-	 * This method initializes the cosSimScore array and titleSimScore array
+	 * This method initializes the cosSimScore array and titleSimScore array.
 	 * 
 	 */
 	private void initializeAllScore()
@@ -71,13 +71,13 @@ public class PageRank {
 	}
 	
 	/**
-	 * This method initializes the rankedlist, -1 means not occupied, the place should be occupied by pageId.
+	 * This method initializes the rankedlist.
 	 * 
 	 */
 	private void initializeRankedList()
 	{
 		for(int i = 0; i < totalPage; i++)
-			rankedList[i] = -1;
+			rankedList[i] = 0;
 	}
 	
 	/**
@@ -140,9 +140,9 @@ public class PageRank {
 		// algorithm of lecture notes 4
 		for(int i=0; i<divideQuery.length; i++)
 		{
+		  Integer wordId = forwardWordTable.getWordID(divideQuery[i]);
 			if (wordId != null)		// key exists
 			{
-				System.out.println(wordId);
 				List<IndexInfo> postingList = invertedIndexTable.getIndexInfoList(wordId);
 				for (int j = 0; j < postingList.size(); j++)
 				{
@@ -241,17 +241,18 @@ public class PageRank {
 	private void getRankedList() throws IOException
 	{
 		findTotalSim();
-		for (int i=0; i<totalPage; i++)
+		for (int i=1; i<totalPage; i++)
 		{
-			int rank = totalPage-1;
-			for(int j=0; j<totalPage; j++)
-			{
-				if(i!=j && totalSimScore[i] > totalSimScore[j])
-					rank--;
-			}
-			while(rankedList[rank] != -1)	// The ranking is occupied
-				rank--;
-			rankedList[rank] = i;
+		  double score = totalSimScore[i];
+		  int j = i;
+		  while(j>0 && totalSimScore[j-1] < score)
+		    {
+		      totalSimScore[j] = totalSimScore[j-1];
+		      rankedList[j] = rankedList[j-1];
+		      j--;
+		    }
+		  totalSimScore[j] = score;
+		  rankedList[j] = i;
 		}
 	}
 
