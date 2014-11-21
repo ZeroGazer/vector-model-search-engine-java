@@ -140,9 +140,9 @@ public class PageRank {
 		// algorithm of lecture notes 4
 		for(int i=0; i<divideQuery.length; i++)
 		{
-			Integer wordId = forwardWordTable.getWordID(divideQuery[i]);
 			if (wordId != null)		// key exists
 			{
+				System.out.println(wordId);
 				List<IndexInfo> postingList = invertedIndexTable.getIndexInfoList(wordId);
 				for (int j = 0; j < postingList.size(); j++)
 				{
@@ -249,7 +249,7 @@ public class PageRank {
 				if(i!=j && totalSimScore[i] > totalSimScore[j])
 					rank--;
 			}
-			while(rankedList[rank] == -1)	// The ranking is occupied
+			while(rankedList[rank] != -1)	// The ranking is occupied
 				rank--;
 			rankedList[rank] = i;
 		}
