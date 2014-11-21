@@ -175,7 +175,7 @@ public class Extractor
 		  {
 		    position++;
 		    String word = st.nextToken();
-		    if(stopStem.isStopWord(word))
+		    if(stopStem.isStopWord(word.toLowerCase()))
 		      continue;
 		    int wordId;
 			  if(!(this.forwardWordTable.hasWord (word)))
