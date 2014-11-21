@@ -42,7 +42,7 @@ public class Crawler
   public boolean ExistLink(String url) 
 	{
 		for(int i=0; i<NUM_OF_PAGE_EXTRACTED; i++)
-			if(v_link[i][1] == url)
+			if(v_link[i][1].equals(url))
 				return true;
 		return false;
 	}
@@ -59,7 +59,7 @@ public class Crawler
 		 URL[] URL_array = lb.getLinks();
 		 for(int i = 0; i < URL_array.length && NUM_OF_PAGE_EXTRACTED<TotalNumOfPage; i++)
 			 {
-			 	if(!ExistLink(URL_array[i].toString()) && NUM_OF_PAGE_EXTRACTED<TotalNumOfPage)
+			 	if(!ExistLink(URL_array[i].toString()))
 			 	{
 			 		v_link[NUM_OF_PAGE_EXTRACTED][0] = this.url;
 			 		v_link[NUM_OF_PAGE_EXTRACTED][1] = URL_array[i].toString();
