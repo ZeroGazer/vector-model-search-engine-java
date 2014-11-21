@@ -2,6 +2,7 @@ package hk.ust.comp4321.engine;
 
 import hk.ust.comp4321.database.ForwardIndexTable;
 import hk.ust.comp4321.database.InvertedIndexTable;
+import hk.ust.comp4321.database.InvertedPageTable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,9 +28,10 @@ public class PhraseChecker {
 	Vector<Integer> quoMarkPosition = new Vector<Integer>();
 	Vector<String> subQuery = new Vector<String>();
 	Vector<Boolean> phraseMatch = new Vector<Boolean>();	// use for store value of each pair of "" 
-	InvertedIndexTable invertedIndexTable;
-	ForwardIndexTable forwardIndexTable;
 	ForwardWordTable forwardWordTable;
+	ForwardIndexTable forwardIndexTable;
+	InvertedIndexTable invertedIndexTable;
+
 	
 	// Constructors.
 	// -------------------------------------------------------------------------
@@ -45,6 +47,9 @@ public class PhraseChecker {
 	{
 		query = Query;
 		pageId = PageId;
+		forwardWordTable = ForwardWordTable.getTable();
+		forwardIndexTable = ForwardIndexTable.getTable();
+		invertedIndexTable = InvertedIndexTable.getTable();
 	}
 	
 	/**
@@ -96,23 +101,28 @@ public class PhraseChecker {
 			for (int i=0; i<subQuery.size(); i++)	// subQuery.size() equal to the number of pair of "", use for loop to check for each pair
 			{
 				divideQuery = subQuery.get(i).split(" ");		//split the subquery into words
+				if(divideQuery.length==1)			// one word only
+					return true;
 				List<List<Integer>> wordPositionList = new ArrayList<List<Integer>>();
 				for (int k=0; k<divideQuery.length; k++)
 				{
-					Integer wordId = forwardWordTable.getWordID(divideQuery[k]);
-					if (wordId == null)		// words don't exist in any page			
+					if (!forwardWordTable.hasWord(divideQuery[k]))		// words don't exist in any page
 						return false;
-					wordPositionList.add(invertedIndexTable.getIndexInfo(wordId, pageId).getPositionList()); // create list of posting list
+					int wordId = forwardWordTable.getWordID(divideQuery[k]);;
+					if (invertedIndexTable.getIndexInfo(wordId, pageId) == null)		//words don't exists in that page
+						return false;
+					else
+						wordPositionList.add(invertedIndexTable.getIndexInfo(wordId, pageId).getPositionList()); // create list of posting list
 				}
 				List<List<Integer>> cartesianProductList = new ArrayList<List<Integer>>();
 				cartesianProduct(wordPositionList, new int[wordPositionList.size()], 0, cartesianProductList); // get caresianProductList
 				for(int m=0; m<cartesianProductList.size(); m++)
 				{
-					for(int n=0; n<cartesianProductList.get(m).size(); n++)
+					for(int n=0; n<cartesianProductList.get(m).size() - 1; n++)
 					{
 						if(cartesianProductList.get(m).get(n)!= cartesianProductList.get(m).get(n+1)-1)	//not phrase, check next CP
 							break;
-						else if (n == cartesianProductList.get(m).size() - 1)	//it is a phrase, store true value
+						else if (n == cartesianProductList.get(m).size() - 2)	//it is a phrase, store true value
 							phraseMatch.add(true);
 					}
 					if(phraseMatch.size() == i+1)	//found a phrase match, can goto check next phrase
