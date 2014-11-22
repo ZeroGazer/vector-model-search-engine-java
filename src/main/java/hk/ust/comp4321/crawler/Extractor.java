@@ -167,14 +167,14 @@ public class Extractor
     sb.setLinks (links);
     sb.setURL (url);
     String temp = sb.getStrings();
+    String[] words = temp.split("[\\W]+");
     int position = 0;
 
     // Non-word character as symbol to separate word by word
-    StringTokenizer st = new StringTokenizer(temp);
-		while (st.hasMoreTokens())
+    for (int k = 0; k < words.length; k++)
 		  {
 		    position++;
-		    String word = st.nextToken();
+		    String word = words[k];
 		    if(stopStem.isStopWord(word.toLowerCase()))
 		      continue;
 		    int wordId;
