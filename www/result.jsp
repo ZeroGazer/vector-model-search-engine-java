@@ -89,6 +89,8 @@
           out.println("<br />");
 
           // print links
+          out.println("Parent links:" + "<br />");
+          out.println("<a href=\"" + pageInfo.getParentLink() + "\">"+ pageInfo.getParentLink() + "</a><br />");
           out.println("Child links:" + "<br />");
           List<String> childLinks = pageInfo.getChildLinks();
           for(j = 0; j < childLinks.size(); j++)
