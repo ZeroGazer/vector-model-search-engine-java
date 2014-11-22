@@ -26,8 +26,10 @@ public class TestPageRank
     PageRank pageRank = new PageRank("\"literature listings\"");
     double[] score = pageRank.returnTotalSimScore();
     int[] rank = pageRank.returnRankedList();
-    for(int i = 0; i < rank.length && i < 50 && score[i] != 0 && new PhraseChecker("\"literature listings\"", rank[i]).isConsecutive(); i++)
+    for(int i = 0; i < rank.length && i < 50 && score[i] != 0; i++)
       {
+        if(!new PhraseChecker("literature listings", rank[i]).isConsecutive())
+          continue;
         out.println("Score: " + score[i]);
         PageInfo pageInfo = invertedPageTable .getPageInfo (rank[i]);
         out.println("Title: " + pageInfo.getTitle());
