@@ -77,8 +77,15 @@
   </head>
   <body onload="onLoad()">
     <div style="text-align: center">
+      <span style="font-size: 24px">COMP4321 Project</span>
+      <br/><br />
+      <span style="font-size: 24px">Search engine</span>
+      <br/><br />
+    </div>
+    <div style="text-align: center">
       <form name="seachForm" method="post" action="result.jsp" accept-charset="UTF-8" onsubmit="return checkInput();">
-        Query: <input list="query" name="query">
+        <span style="font-size: 24px">Query: </span>
+          <input list="query" name="query">
           <datalist id="query">
           </datalist> 
         <input type="submit" value="Submit">
