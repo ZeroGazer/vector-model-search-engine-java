@@ -102,7 +102,10 @@ public class PhraseChecker {
 			{
 				divideQuery = subQuery.get(i).split(" ");		//split the subquery into words
 				if(divideQuery.length==1)			// one word only
-					return true;
+				{
+					phraseMatch.add(true);
+					continue;
+				)
 				List<List<Integer>> wordPositionList = new ArrayList<List<Integer>>();
 				for (int k=0; k<divideQuery.length; k++)
 				{
