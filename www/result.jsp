@@ -2,7 +2,7 @@
 <%@ page import="java.util.List, jdbm.helper.FastIterator" %>
 
 <%  String query = request.getParameter("query");
-    String[] queryArray= query.replace("\"", "").split(" ");
+    String[] queryArray= query.replace("\"", "").split("[\\W]+");
 %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@
 
           // print title
           out.print("<a href=\"" + pageInfo.getUrl() + "\">");
-          String[] titleArray = pageInfo.getTitle().split(" ");
+          String[] titleArray = pageInfo.getTitle().split("[\\W]+");
           for(j = 0; j < titleArray.length; j++)
             {
               String word = titleArray[j];
