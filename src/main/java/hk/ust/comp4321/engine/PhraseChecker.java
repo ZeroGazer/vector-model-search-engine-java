@@ -103,9 +103,14 @@ public class PhraseChecker {
 				divideQuery = subQuery.get(i).split(" ");		//split the subquery into words
 				if(divideQuery.length==1)			// one word only
 				{
+					if (!forwardWordTable.hasWord(divideQuery[0]))		// words doesn't exist in any page
+						return false;
+					int wordId = forwardWordTable.getWordID(divideQuery[0]);
+					if (invertedIndexTable.getIndexInfo(wordId, pageId) == null)		//word doesn't exists in that page
+						return false;
 					phraseMatch.add(true);
 					continue;
-				)
+				}
 				List<List<Integer>> wordPositionList = new ArrayList<List<Integer>>();
 				for (int k=0; k<divideQuery.length; k++)
 				{
