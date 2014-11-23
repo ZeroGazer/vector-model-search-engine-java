@@ -18,8 +18,10 @@
       int[] rankedId = pageRank.returnRankedList();
       double[] rankedScore = pageRank.returnTotalSimScore();
       Integer i, j, k, l;
-      for(i = 0; i < rankedId.length && i < 50 && rankedScore[i] != 0 && new PhraseChecker(query, rankedId[i]).isConsecutive(); i++)
+      for(i = 0; i < rankedId.length && i < 50 && rankedScore[i] != 0; i++)
         {
+          if(!(new PhraseChecker(query, rankedId[i]).isConsecutive()))
+              continue;
           pageInfo = invertedPageTable.getPageInfo (rankedId[i]);
 
           // print score
